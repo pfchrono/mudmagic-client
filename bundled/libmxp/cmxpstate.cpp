@@ -21,6 +21,7 @@
 #include "rgbops.h"
 #include "stringops.h"
 
+#include <string.h>
 #include <config.h>
 
 #include <algorithm>

@@ -41,13 +41,13 @@
 #define HAVE_NETINET_IN_H 1
 
 /* Define to 1 if you have the <pcre.h> header file. */
-#define HAVE_PCRE_H 1
+/* #undef HAVE_PCRE_H */
 
 /* Define to 1 if you have the `socket' function. */
 #define HAVE_SOCKET 1
 
 /* Define to 1 if you have the <sqlite3.h> header file. */
-#define HAVE_SQLITE3_H 1
+/* #undef HAVE_SQLITE3_H */
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1

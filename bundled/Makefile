@@ -43,7 +43,7 @@ host_triplet = i686-pc-linux-gnu
 #########
 # Sqlite3
 #########
-#am__append_1 = libsqlite3.la
+am__append_1 = libsqlite3.la
 
 #####
 # MXP
@@ -53,7 +53,7 @@ am__append_2 = libmxp.la
 ######
 # PCRE
 ######
-#am__append_3 = libpcre.la
+am__append_3 = libpcre.la
 
 ########
 # Zlib
@@ -63,7 +63,7 @@ am__append_2 = libmxp.la
 ########
 # LibGlade
 ########
-#am__append_5 = libglade-2.0.la
+am__append_5 = libglade-2.0.la
 
 ########
 # LibCurl
@@ -103,24 +103,24 @@ am_libcurl_la_OBJECTS = base64.lo connect.lo content_encoding.lo \
 	sslgen.lo url.lo version.lo
 libcurl_la_OBJECTS = $(am_libcurl_la_OBJECTS)
 am_libcurl_la_rpath = -rpath $(libdir)
-#libglade_2_0_la_DEPENDENCIES =  \
-#	$(am__DEPENDENCIES_1)
+libglade_2_0_la_DEPENDENCIES =  \
+	$(am__DEPENDENCIES_1)
 am_libglade_2_0_la_OBJECTS = glade-parser.lo glade-xml.lo \
 	glade-init.lo glade-gtk.lo
 libglade_2_0_la_OBJECTS = $(am_libglade_2_0_la_OBJECTS)
-#am_libglade_2_0_la_rpath = -rpath $(libdir)
+am_libglade_2_0_la_rpath = -rpath $(libdir)
 libmxp_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am_libmxp_la_OBJECTS = centitymanager.lo cmxpcolors.lo cmxpparser.lo \
 	libmxp.lo celementmanager.lo cmxpstate.lo cresulthandler.lo \
 	cmxpprocessor.lo stringops.lo
 libmxp_la_OBJECTS = $(am_libmxp_la_OBJECTS)
 am_libmxp_la_rpath = -rpath $(libdir)
-#libpcre_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
+libpcre_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am_libpcre_la_OBJECTS = pcre.lo get.lo
 libpcre_la_OBJECTS = $(am_libpcre_la_OBJECTS)
-#am_libpcre_la_rpath = -rpath $(libdir)
-#libsqlite3_la_DEPENDENCIES =  \
-#	$(am__DEPENDENCIES_1)
+am_libpcre_la_rpath = -rpath $(libdir)
+libsqlite3_la_DEPENDENCIES =  \
+	$(am__DEPENDENCIES_1)
 am_libsqlite3_la_OBJECTS = attach.lo date.lo hash.lo random.lo \
 	update.lo os_unix.lo vdbeapi.lo where.lo auth.lo delete.lo \
 	insert.lo pager.lo select.lo utf.lo vdbeaux.lo btree.lo \
@@ -129,7 +129,7 @@ am_libsqlite3_la_OBJECTS = attach.lo date.lo hash.lo random.lo \
 	vacuum.lo vdbemem.lo opcodes.lo parse.lo alter.lo analyze.lo \
 	callback.lo complete.lo prepare.lo vdbefifo.lo
 libsqlite3_la_OBJECTS = $(am_libsqlite3_la_OBJECTS)
-#am_libsqlite3_la_rpath = -rpath $(libdir)
+am_libsqlite3_la_rpath = -rpath $(libdir)
 #libzlib_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am_libzlib_la_OBJECTS = inflate.lo zutil.lo inftrees.lo infback.lo \
 	deflate.lo inffast.lo crc32.lo compress.lo gzio.lo trees.lo \
@@ -164,25 +164,25 @@ DIST_SOURCES = $(libcurl_la_SOURCES) $(libglade_2_0_la_SOURCES) \
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/kyndig/mudmagic_client/missing --run aclocal-1.9
+ACLOCAL = ${SHELL} /home/jester/Downloads/mudmagic-1.9/missing --run aclocal-1.9
 AMDEP_FALSE = #
 AMDEP_TRUE = 
-AMTAR = ${SHELL} /home/kyndig/mudmagic_client/missing --run tar
+AMTAR = ${SHELL} /home/jester/Downloads/mudmagic-1.9/missing --run tar
 AR = ar
-AUTOCONF = ${SHELL} /home/kyndig/mudmagic_client/missing --run autoconf
-AUTOHEADER = ${SHELL} /home/kyndig/mudmagic_client/missing --run autoheader
-AUTOMAKE = ${SHELL} /home/kyndig/mudmagic_client/missing --run automake-1.9
+AUTOCONF = ${SHELL} /home/jester/Downloads/mudmagic-1.9/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/jester/Downloads/mudmagic-1.9/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/jester/Downloads/mudmagic-1.9/missing --run automake-1.9
 AWK = gawk
-BUNDLED_LIBS =  $(top_builddir)/bundled/libmxp.la $(top_builddir)/bundled/libcurl.la
-CC = ccache gcc
+BUNDLED_LIBS = $(top_builddir)/bundled/libsqlite3.la $(top_builddir)/bundled/libglade-2.0.la $(top_builddir)/bundled/libpcre.la $(top_builddir)/bundled/libmxp.la $(top_builddir)/bundled/libcurl.la
+CC = gcc
 CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2
-CPP = ccache gcc -E
+CPP = gcc -E
 CPPFLAGS = 
 CURL_CFLAGS = -I$(top_builddir)/bundled/curl
 CURL_LIBS = 
-CXX = ccache g++
-CXXCPP = ccache g++ -E
+CXX = g++
+CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
 CXXFLAGS = -g -O2
 CYGPATH_W = echo
@@ -195,41 +195,41 @@ ECHO_N = -n
 ECHO_T = 
 EGREP = grep -E
 EXEEXT = 
-F77 = f95
-FFLAGS = -g -O2
-GTK_CFLAGS =  -DGTK_GREATER_THAN -DGTK_2_8_9_PLUS -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
-GTK_LIBS = -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lpango-1.0 -lcairo -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
+F77 = 
+FFLAGS = 
+GTK_CFLAGS =  -DGTK_GREATER_THAN -DGTK_2_8_9_PLUS -pthread -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/pango-1.0 -I/usr/include/gio-unix-2.0/ -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/libpng12  
+GTK_LIBS = -pthread -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lpangocairo-1.0 -lgdk_pixbuf-2.0 -lm -lcairo -lpng12 -lpango-1.0 -lfreetype -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lglib-2.0  
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = ${SHELL} $(install_sh) -c -s
 LDFLAGS = 
-LIBGLADE_CFLAGS = -I/usr/include/libglade-2.0 -I/usr/include/gtk-2.0 -I/usr/include/libxml2 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
-LIBGLADE_LIBS = -lglade-2.0 -lgtk-x11-2.0 -lxml2 -lz -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lpango-1.0 -lcairo -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
+LIBGLADE_CFLAGS = -I$(top_builddir)/bundled/libglade
+LIBGLADE_LIBS = -L -lglib-2.0   
 LIBOBJS = 
 LIBS = -lgthread-2.0 -lutil -lpthread 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LIBTOOL_DEPS = ./ltmain.sh
-LIBXML_CFLAGS = 
-LIBXML_LIBS = 
+LIBXML_CFLAGS = -I/usr/include/libxml2  
+LIBXML_LIBS = -lxml2  
 LN_S = ln -s
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /home/kyndig/mudmagic_client/missing --run makeinfo
+MAKEINFO = ${SHELL} /home/jester/Downloads/mudmagic-1.9/missing --run makeinfo
 MISSING_LIBCURL = 
 MISSING_LIBCURL_FALSE = #
 MISSING_LIBCURL_TRUE = 
 MISSING_LIBGLADE = 
-MISSING_LIBGLADE_FALSE = 
-MISSING_LIBGLADE_TRUE = #
+MISSING_LIBGLADE_FALSE = #
+MISSING_LIBGLADE_TRUE = 
 MISSING_LIBMXP = 
 MISSING_LIBMXP_FALSE = #
 MISSING_LIBMXP_TRUE = 
 MISSING_PCRE = 
-MISSING_PCRE_FALSE = 
-MISSING_PCRE_TRUE = #
+MISSING_PCRE_FALSE = #
+MISSING_PCRE_TRUE = 
 MISSING_SQLITE = 
-MISSING_SQLITE_FALSE = 
-MISSING_SQLITE_TRUE = #
+MISSING_SQLITE_FALSE = #
+MISSING_SQLITE_TRUE = 
 MISSING_ZLIB = 
 MISSING_ZLIB_FALSE = 
 MISSING_ZLIB_TRUE = #
@@ -248,24 +248,24 @@ PACKAGE_STRING =
 PACKAGE_TARNAME = 
 PACKAGE_VERSION = 
 PATH_SEPARATOR = :
-PCRE_CFLAGS = -I/usr/include/pcre
-PCRE_LIBS = -lpcre
-PROFILE = 
-PYTHON_CFLAGS = -I/usr/include/python2.4
-PYTHON_LIBS = -lpython2.4 -L/usr/lib/python2.4/config
+PCRE_CFLAGS = -I$(top_builddir)/bundled/pcre
+PCRE_LIBS = 
+PROFILE = -pg
+PYTHON_CFLAGS = -I/usr/include/python2.6
+PYTHON_LIBS = -lpython2.6 -L/usr/lib/python2.6/config
 RANLIB = ranlib
 SET_MAKE = 
-SHELL = /bin/sh
-SQLITE_CFLAGS = -I/usr/local/include/sqlite -I/usr/include/sqlite
-SQLITE_LIBS = -lsqlite3
+SHELL = /bin/bash
+SQLITE_CFLAGS = -I$(top_builddir)/bundled/sqlite3
+SQLITE_LIBS = 
 STRIP = strip
 VERSION = 1.9
 ZLIB_CFLAGS = -I/usr/local/include/zlib -I/usr/include/zlib
 ZLIB_LIBS = -lz
 ac_ct_AR = ar
-ac_ct_CC = ccache gcc
-ac_ct_CXX = 
-ac_ct_F77 = f95
+ac_ct_CC = gcc
+ac_ct_CXX = g++
+ac_ct_F77 = 
 ac_ct_RANLIB = ranlib
 ac_ct_STRIP = strip
 aclocaldir = 
@@ -294,7 +294,7 @@ host_os = linux-gnu
 host_vendor = pc
 includedir = ${prefix}/include
 infodir = ${prefix}/info
-install_sh = /home/kyndig/mudmagic_client/install-sh
+install_sh = /home/jester/Downloads/mudmagic-1.9/install-sh
 libdir = ${exec_prefix}/lib/mudmagic/libs
 libexecdir = ${exec_prefix}/libexec
 localstatedir = ${prefix}/var
@@ -304,7 +304,7 @@ mudmagic_libdir = ${exec_prefix}/lib/mudmagic/
 mxp_libname = libmxp.so.0
 oldincludedir = /usr/include
 pcre_libname = libpcre.so.0
-prefix = /usr
+prefix = /usr/local
 program_transform_name = s,x,x,
 sbindir = ${exec_prefix}/sbin
 sharedstatedir = ${prefix}/com
@@ -314,11 +314,11 @@ target_alias =
 
 #bundle directory
 BD = $(top_srcdir)/bundled
-BUNDLE_LIBS = -lsqlite3 -lpython2.4 -L/usr/lib/python2.4/config -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lpango-1.0 -lcairo -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0   -lpcre -lz  -lglade-2.0 -lgtk-x11-2.0 -lxml2 -lz -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lpango-1.0 -lcairo -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0   
+BUNDLE_LIBS =  -lpython2.6 -L/usr/lib/python2.6/config -pthread -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lpangocairo-1.0 -lgdk_pixbuf-2.0 -lm -lcairo -lpng12 -lpango-1.0 -lfreetype -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lglib-2.0    -lz  -L -lglib-2.0    
 BUNDLE_LDFLAGS = -version-info $(MUDMAGIC_LIB_VERSION) -export-dynamic
 lib_LTLIBRARIES = $(am__append_1) $(am__append_2) $(am__append_3) \
 	$(am__append_4) $(am__append_5) $(am__append_6)
-AM_CFLAGS = -I/usr/include/libglade-2.0 -I/usr/include/gtk-2.0 -I/usr/include/libxml2 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include    -DGTK_GREATER_THAN -DGTK_2_8_9_PLUS -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include   
+AM_CFLAGS = -I$(top_builddir)/bundled/libglade  -DGTK_GREATER_THAN -DGTK_2_8_9_PLUS -pthread -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/pango-1.0 -I/usr/include/gio-unix-2.0/ -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/libpng12   -I/usr/include/libxml2  
 libsqlite3_la_SOURCES = \
 	$(BD)/sqlite3/attach.c $(BD)/sqlite3/date.c $(BD)/sqlite3/hash.c  \
 	$(BD)/sqlite3/random.c $(BD)/sqlite3/update.c $(BD)/sqlite3/os_unix.c \
@@ -420,16 +420,16 @@ libcurl_la_SOURCES = \
 	$(BD)/curl/url.c \
 	$(BD)/curl/version.c
 
-#libsqlite3_la_LDFLAGS = $(BUNDLE_LDFLAGS) -rpath ${exec_prefix}/lib/mudmagic/libs
-#libsqlite3_la_LIBADD = $(BUNDLE_LIBS)
+libsqlite3_la_LDFLAGS = $(BUNDLE_LDFLAGS) -rpath ${exec_prefix}/lib/mudmagic/libs
+libsqlite3_la_LIBADD = $(BUNDLE_LIBS)
 libmxp_la_LDFLAGS = $(BUNDLE_LDFLAGS) -rpath ${exec_prefix}/lib/mudmagic/libs
 libmxp_la_LIBADD = $(BUNDLE_LIBS)
-#libpcre_la_LDFLAGS = $(BUNDLE_LDFLAGS) -rpath ${exec_prefix}/lib/mudmagic/libs
-#libpcre_la_LIBADD = $(BUNDLE_LIBS)
+libpcre_la_LDFLAGS = $(BUNDLE_LDFLAGS) -rpath ${exec_prefix}/lib/mudmagic/libs
+libpcre_la_LIBADD = $(BUNDLE_LIBS)
 #libzlib_la_LDFLAGS = $(BUNDLE_LDFLAGS) -rpath ${exec_prefix}/lib/mudmagic/libs
 #libzlib_la_LIBADD = $(BUNDLE_LIBS)
-#libglade_2_0_la_LDFLAGS = $(BUNDLE_LDFLAGS) -rpath ${exec_prefix}/lib/mudmagic/libs
-#libglade_2_0_la_LIBADD = $(BUNDLE_LIBS)
+libglade_2_0_la_LDFLAGS = $(BUNDLE_LDFLAGS) -rpath ${exec_prefix}/lib/mudmagic/libs
+libglade_2_0_la_LIBADD = $(BUNDLE_LIBS)
 libcurl_la_LDFLAGS = $(BUNDLE_LDFLAGS) -rpath ${exec_prefix}/lib/mudmagic/libs
 libcurl_la_LIBADD = $(BUNDLE_LIBS)
 all: all-am

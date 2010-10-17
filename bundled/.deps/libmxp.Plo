@@ -1,1 +1,6 @@
-# dummy
+libmxp.lo: ../bundled/libmxp/libmxp.cpp ../bundled/libmxp/libmxp.h \
+ ../bundled/libmxp/cmxpprocessor.h
+
+../bundled/libmxp/libmxp.h:
+
+../bundled/libmxp/cmxpprocessor.h:

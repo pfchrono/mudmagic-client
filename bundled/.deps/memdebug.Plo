@@ -1,1 +1,1 @@
-# dummy
+memdebug.lo: ../bundled/curl/memdebug.c

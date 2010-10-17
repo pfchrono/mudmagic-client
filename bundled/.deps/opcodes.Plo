@@ -1,1 +1,1 @@
-# dummy
+opcodes.lo: ../bundled/sqlite3/opcodes.c

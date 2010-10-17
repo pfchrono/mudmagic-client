@@ -1,0 +1,15 @@
+ Added gzip support for the game list. Provides a faster
+ download of the game list remotely, and on the fly
+ decompression.
+
+ Fixed an old PCRE bug that was hidden in the client. If
+ PCRE fails, it exits gracefully. 
+
+ Modified configure script, new values are
+    --with-sqlite=
+    --enable-plugins
+    --disable-plugins
+    --enable-mxp
+    --disable-mxp
+    --with-libmxp=
+

@@ -1,5 +1,5 @@
 #!/bin/sh
-prefix="/usr"
+prefix="/usr/local"
 exec_prefix="${prefix}"
 libs="${exec_prefix}/lib/mudmagic/libs:${exec_prefix}/lib"
 

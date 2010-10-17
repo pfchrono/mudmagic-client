@@ -1,1 +1,68 @@
-# dummy
+muderr.lo: utils/muderr.c utils/muderr.h \
+ /usr/include/glib-2.0/glib/gtypes.h \
+ /usr/lib/glib-2.0/include/glibconfig.h \
+ /usr/include/glib-2.0/glib/gmacros.h \
+ /usr/lib/gcc/i686-linux-gnu/4.4.5/include/stddef.h \
+ /usr/lib/gcc/i686-linux-gnu/4.4.5/include-fixed/limits.h \
+ /usr/lib/gcc/i686-linux-gnu/4.4.5/include-fixed/syslimits.h \
+ /usr/include/limits.h /usr/include/features.h \
+ /usr/include/bits/predefs.h /usr/include/sys/cdefs.h \
+ /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+ /usr/include/gnu/stubs-32.h /usr/include/bits/posix1_lim.h \
+ /usr/include/bits/local_lim.h /usr/include/linux/limits.h \
+ /usr/include/bits/posix2_lim.h \
+ /usr/lib/gcc/i686-linux-gnu/4.4.5/include/float.h \
+ /usr/include/glib-2.0/glib/glist.h /usr/include/glib-2.0/glib/gmem.h \
+ /usr/include/glib-2.0/glib/gslice.h /usr/include/glib-2.0/glib/gquark.h \
+ /usr/include/glib-2.0/glib/gerror.h \
+ /usr/lib/gcc/i686-linux-gnu/4.4.5/include/stdarg.h
+
+utils/muderr.h:
+
+/usr/include/glib-2.0/glib/gtypes.h:
+
+/usr/lib/glib-2.0/include/glibconfig.h:
+
+/usr/include/glib-2.0/glib/gmacros.h:
+
+/usr/lib/gcc/i686-linux-gnu/4.4.5/include/stddef.h:
+
+/usr/lib/gcc/i686-linux-gnu/4.4.5/include-fixed/limits.h:
+
+/usr/lib/gcc/i686-linux-gnu/4.4.5/include-fixed/syslimits.h:
+
+/usr/include/limits.h:
+
+/usr/include/features.h:
+
+/usr/include/bits/predefs.h:
+
+/usr/include/sys/cdefs.h:
+
+/usr/include/bits/wordsize.h:
+
+/usr/include/gnu/stubs.h:
+
+/usr/include/gnu/stubs-32.h:
+
+/usr/include/bits/posix1_lim.h:
+
+/usr/include/bits/local_lim.h:
+
+/usr/include/linux/limits.h:
+
+/usr/include/bits/posix2_lim.h:
+
+/usr/lib/gcc/i686-linux-gnu/4.4.5/include/float.h:
+
+/usr/include/glib-2.0/glib/glist.h:
+
+/usr/include/glib-2.0/glib/gmem.h:
+
+/usr/include/glib-2.0/glib/gslice.h:
+
+/usr/include/glib-2.0/glib/gquark.h:
+
+/usr/include/glib-2.0/glib/gerror.h:
+
+/usr/lib/gcc/i686-linux-gnu/4.4.5/include/stdarg.h:
