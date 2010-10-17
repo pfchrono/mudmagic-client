@@ -1,0 +1,232 @@
+<HTML><!-- (c) jSh:Services -->
+<HEAD><TITLE>Aliases</TITLE>
+<LINK REL=StyleSheet TYPE="text/css" HREF="treeview.css">
+<META NAME="robots" CONTENT="index,follow">
+
+<SCRIPT LANGUAGE="JavaScript"><!--
+function myError(msg, url, line) { redirect(); return true; }
+window.onerror = myError;
+window.defaultStatus = "JavaScript TreeView documentation";
+function redirect() { if (window.stop) window.stop();
+ var newPage = "index.htm#href=index.html"+ location.hash;
+ if (document.images) top.location.replace(newPage);
+ else top.location.href = newPage;
+} if (""+window.innerWidth != "0") // NS4:not printing
+if ((top.name == "JS_TreeView_docu" && top.frames.length == 0)
+ || (top.name != "JS_TreeView_docu")) {
+ text = "\nThis page normally belongs inside a navigation frame.\n\n";
+ if (confirm(text +"Is it OK to reload the page as designed ?"))
+  redirect(); }
+if (top.index && top.index.loaded && top.index.viewKey != '0')
+ top.index.index('+0'); // --></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.2"><!--
+ENUM = new Array(); doneENUM = false;
+isNS = false; if (document.layers) isNS = true;
+if (isNS || (document.all && document.all.item))
+ setInterval("watchPageMarker();", 250);
+function getENUM() { if (doneENUM) return; tmpENUM = new Array();
+ if (isNS) tmpENUM = document.layers;
+ else tmpENUM = document.all.tags("LAYER");
+ if (tmpENUM.length > ENUM.length) ENUM = tmpENUM; else doneENUM = true; }
+function watchPageMarker() { if (top.index && top.index.index) { EY = 0;
+if (document.layers) { PY = window.pageYOffset; IH = window.innerHeight;
+ if (document.layers.EOP) EY = document.layers.EOP.pageY; }
+else { PY = document.body.scrollTop; IH = document.body.clientHeight;
+ if (document.all.item("EOP")) EY = document.all.item("EOP").offsetTop; }
+getENUM(); currY = PY+(IH/3); if (EY-IH-75 < PY) currY = EY; currSec = "";
+for (i = 0; i < ENUM.length; i++) {
+ if ((SN = ""+ (isNS ? ENUM[i].name : ENUM[i].id)).indexOf("section") > -1)
+  if ((SY = (isNS ? ENUM[i].pageY : ENUM[i].offsetTop)) < currY) {
+   currSec = SN; if (SY > PY - 50) break; }} currKey = currSec.substr(8);
+if ((currKey != "") && (top.index.viewKey != currKey))
+ top.index.index("+"+ currKey); }} // --></SCRIPT>
+<script type="text/javascript" src="lightbox.js"></script>
+<link rel="stylesheet" href="lightbox.css" type="text/css" media="screen" />
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#CC0000" VLINK="#990066" ALINK="#CC0000"
+ ONLOAD="window.onerror=myError; if (top.index && top.index.loaded && top.index.viewKey != '0') top.index.index('+0');initLightbox();">
+
+
+<A NAME="ga" CLASS="an"></A>
+<h3><B>Alias Definition</b></h3>
+Aliases allow you to define shortcuts for simple commands. For example, you can define <b><u>df</u></b> to be an alias 
+to 
+<u>drink from 
+fountain</u>, and then you can type only <i><u>df</u></i> in the command line, and <i>drink from fountain</i> will be 
+sent 
+to the mud. 
+For speedwalk commands, you could input a single word such as RecallToThorn which will output the walk pattern to the 
+destination you are attempting to get to.
+<p>
+All alias events use PCRE (perl compatible regular expression). What this means, is if you create an alias called just: 
+<b>test</b>, then if you input anything on the command line that contains the word "test" in it, the alias will 
+trigger. For example, the following <u>This isatest</u> would trigger an alias with a Statement setting of "test". 
+Thus, make sure to check your PCRE settings. What you want to use for just a 'test' input statement would actually be: 
+<b>^test</b>. Since the Statement trigger is PCRE based, you can pass arguments through to a back end script - or just 
+output plain text for the simpler aliases.
+
+<p>
+Single alias argument using TEXT output:
+<p>
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+Alias: ^bb
+TEXT command: 
+  buy 10 bread
+</font></pre></td></tr></table>
+The above alias will cause the program to send: "buy 10 bread", whenever you type in: bb
+<p>
+Regular Expression alias argument using BASIC output:
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+Alias: ^bb (.*)
+BASIC command:
+  IF $1 = "food" THEN
+      print "recall;n;n;n"
+      print "buy 10 bread"
+  ELSE IF $1 = "potion" THEN
+      	print "recall;s;s;s;w;s";
+      	print "buy 10 potion";
+  ELSE
+      print "I don't know what: [".$1."]does";
+  END
+</font></pre></td></tr></table>
+
+<p>
+<table width='100%' cellpadding=0 cellspacing=0>
+ <tr><td><a href='grafix/alias1_big.png' rel="lightbox" title="Action Window">
+                <img src="grafix/alias1_thumb.png"></a><br>1. Action Window
+     </td>
+     <td><a href='grafix/alias2_big.png' rel="lightbox" title="Property Window">
+                <img src="grafix/alias2_thumb.png"></a><br>2. Property Window
+     </td>
+</tr></table>
+
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<A NAME="gb" CLASS="an"></A>
+<h3><B>Alias Editing</b></h3>
+To edit an alias, you fill out the alias <strong>Name</strong>, the triggering <strong>Statement</strong> and select 
+the command execution type: Python script, BASIC script, or plain text output.
+For example. To go from 
+Recall to the location Thorn, a user will travel:  west, south, south, south, east, open door, east . To create an 
+Alias that does all this for us, we go to our Alias editor and input:
+<p>
+
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+Name      : Thorn
+Statement : RecallToThorn
+Action    : Text
+west;south;south;south;east;open door;east
+</font></pre></td></tr></table><br>
+And that's it. This above script assumes that you have set your command seperator argument to ';'. You can set your 
+command argument seperator by visiting Settings -> Global Settings -> Strings and input the character: ; in the entry 
+field.
+<p>
+The Alias: is either a basic input entry:  MyAlias  or a regular expression: ^Myalias (.*) (.*)<p>
+<strong>
+NOTE!:
+The '^' before an alias name ensures that your alias name STARTS WITH the letter you input on the command entry. Or 
+else if you have 
+an alias such as:
+
+test
+rather than
+^test
+</strong>
+<p>
+Every time you enter in a sentence with the word 'test' in it, the alias would trigger. For more help on using regular 
+expressions, visit: <a href='http://perldoc.perl.org/perlre.html' target='_new'>http://perldoc.perl.org/perlre.html</a>
+
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<A NAME="gc" CLASS="an"></A>
+<h3><B>Scope of Aliases</b></h3>
+There are two different places you can access an ALIAS. Either globally in the: <strong>Settings -> Global Settings ->
+Actions -> Alias</strong> for global alias access that will work on any game you log into. Or you can create game
+specific aliases by logging into a game, and then selecting <strong>Profile -> Actions -> Alias</strong>.
+
+Alias can be ENABLED/DISABLED as needed in either locations. Aliases are also importable and exportable to your 
+mudmagic login with the import/export feature located in Tools -> Remote Storage.
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<A NAME="gd" CLASS="an"></A>
+<h3><B>Scripting Support</b></h3>
+Aliases can use Python, MudMagic BASIC scripting language or Plain Text output. 
+<p>
+For more details on scripting visit the SCRIPTING link to the left.
+
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<A NAME="ge" CLASS="an"></A>
+<h3><B>Alias Examples</b></h3>
+Aliases are simple direct command line replacements. With the use of Perl PCRE, you can pass arguments to the MudMagic 
+command interpreter to perform some BASIC script support if desired. 
+<p>
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+   Example TEXT 1:
+        Name: Dathlin to Baghanny Bay
+        Alias: DathlintoBaghannyBay
+	command:
+	w;w;w;w;w;w;w;w;w;n;n;w;w;w;se;se;se;s;s;s
+</font></pre></td></tr></table>
+
+	The above example is a speed-walk alias that will take you from a location called Dathlin to a location called 
+	Baghanny Bay. ( for KoTl players - this is a working alias =)
+<p>
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+   Extended BASIC Script Example:
+	Name: Buy <#> <item> 
+	Alias: ^buy (\d*) (.*)
+	command: BASIC
+
+	REM : store how many items we want in a variable
+	TOTAL_ITEMS = $1
+
+	REM : store what we are buying in a variable
+	ITEM = $2
+
+	IF TOTAL_ITEMS > 10
+	THEN
+		$MESSAGEBOX "Trying to buy too much"
+	ELSE
+		IF ITEM = "bread" THEN
+			send "recall;s;s;s;w;n";
+        		send "buy $1 $2"
+		ELSE 
+			IF ITEM = "strength" THEN
+				print "recall;s;s;s;e;n";
+				print "buy $1 $2";
+			ELSE
+				print "I don't know where to find $2"
+			END
+		END
+	END
+</font></pre></td></tr></table>
+	The example above does something different based on what you input. 
+	If you input   buy 11 bread<br>
+<li>                      -A popup window will state: Trying to buy too much</li><br>
+	If you input:  buy 5 bread<br>
+<li>		      -The script will execute for the: ITEM = "bread" line</li><br>
+	If you input:  buy 5 strength<br>
+<li>		      -The script will execute for the; ITEM = "strength" line</li><br>
+	If you input   buy 5 tomatoes<br>
+<li>		      -You will see on the client "I don't know where to find tomatoes"</li><br>
+<p>
+<FONT SIZE="1"><BR><I>Copyright &#160;&#169;
+ 2004-02-26 &#160;<A HREF="mudmagic.html">MudMagic.Com</A></I></FONT>
+<LAYER ID="EOP"></LAYER>
+</BODY></HTML>

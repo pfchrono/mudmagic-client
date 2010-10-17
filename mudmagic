@@ -1,0 +1,17 @@
+#!/bin/sh
+prefix="/usr"
+exec_prefix="${prefix}"
+libs="${exec_prefix}/lib/mudmagic/libs:${exec_prefix}/lib"
+
+binary="${exec_prefix}/bin/mudmagic-bin"
+
+run() {
+
+   # Append our mudmagic libs.
+   export LD_LIBRARY_PATH="$libs"
+   "$binary" "$@"
+}
+
+run "$@"
+exit 0
+

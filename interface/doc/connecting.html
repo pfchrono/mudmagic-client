@@ -1,0 +1,149 @@
+<HTML><!-- (c) jSh:Services -->
+<HEAD><TITLE>Connecting</TITLE>
+<LINK REL=StyleSheet TYPE="text/css" HREF="treeview.css">
+<META NAME="robots" CONTENT="index,follow">
+
+<SCRIPT LANGUAGE="JavaScript"><!--
+function myError(msg, url, line) { redirect(); return true; }
+window.onerror = myError;
+window.defaultStatus = "JavaScript TreeView documentation";
+function redirect() { if (window.stop) window.stop();
+ var newPage = "index.htm#href=index.html"+ location.hash;
+ if (document.images) top.location.replace(newPage);
+ else top.location.href = newPage;
+} if (""+window.innerWidth != "0") // NS4:not printing
+if ((top.name == "JS_TreeView_docu" && top.frames.length == 0)
+ || (top.name != "JS_TreeView_docu")) {
+ text = "\nThis page normally belongs inside a navigation frame.\n\n";
+ if (confirm(text +"Is it OK to reload the page as designed ?"))
+  redirect(); }
+if (top.index && top.index.loaded && top.index.viewKey != '0')
+ top.index.index('+0'); // --></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.2"><!--
+ENUM = new Array(); doneENUM = false;
+isNS = false; if (document.layers) isNS = true;
+if (isNS || (document.all && document.all.item))
+ setInterval("watchPageMarker();", 250);
+function getENUM() { if (doneENUM) return; tmpENUM = new Array();
+ if (isNS) tmpENUM = document.layers;
+ else tmpENUM = document.all.tags("LAYER");
+ if (tmpENUM.length > ENUM.length) ENUM = tmpENUM; else doneENUM = true; }
+function watchPageMarker() { if (top.index && top.index.index) { EY = 0;
+if (document.layers) { PY = window.pageYOffset; IH = window.innerHeight;
+ if (document.layers.EOP) EY = document.layers.EOP.pageY; }
+else { PY = document.body.scrollTop; IH = document.body.clientHeight;
+ if (document.all.item("EOP")) EY = document.all.item("EOP").offsetTop; }
+getENUM(); currY = PY+(IH/3); if (EY-IH-75 < PY) currY = EY; currSec = "";
+for (i = 0; i < ENUM.length; i++) {
+ if ((SN = ""+ (isNS ? ENUM[i].name : ENUM[i].id)).indexOf("section") > -1)
+  if ((SY = (isNS ? ENUM[i].pageY : ENUM[i].offsetTop)) < currY) {
+   currSec = SN; if (SY > PY - 50) break; }} currKey = currSec.substr(8);
+if ((currKey != "") && (top.index.viewKey != currKey))
+ top.index.index("+"+ currKey); }} // --></SCRIPT>
+<script type="text/javascript" src="lightbox.js"></script>
+<link rel="stylesheet" href="lightbox.css" type="text/css" media="screen" />
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#CC0000" VLINK="#990066" ALINK="#CC0000"
+ ONLOAD="window.onerror=myError; if (top.index && top.index.loaded && top.index.viewKey != '0') top.index.index('+0');initLightbox();">
+
+<LAYER ID="section_0"></LAYER>
+<A NAME="*" CLASS="an"><font size="1">&#160;</font></A>
+
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<P>
+<B><h3><a name="a">General Connection</a></h3></B>
+The MudMagic Client provides Telnet connectivity to online text games. Current supported protocols 
+include: TCP/IP Telnet, MCCP, MXP, and MSP. Future releases will contain additional connectivity
+protocols as requested by users.<p>
+There are 3 ways which you can use this software to connect to a text game. Clicking the WIZARD
+to select you a new mud and create a character. 
+Clicking the QUICK CONNECT to create a new character, or using the
+OPEN dialogue window to log into an existing saved character.
+
+<BR>&#160;
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<LAYER ID="section_a"></LAYER>
+<A NAME="b" CLASS="an"></A><P><H3>Connection Wizard</H3><P>
+
+<a href='grafix/wizard_big.png' rel="lightbox" title="Game List Wizard">
+                <img src="grafix/wizard_thumb.png"></a><br>Game List Wizard
+<p>
+Shortcut key: <strong>CNTRL+N</strong> Located in: <strong>Character -> Wizard</strong> or
+click on the <strong>Wizard Icon</strong><br>
+The Game List Wizard provides you an up to date listing of all telnet text games in the
+MudMagic Website database. To connect to a game using this feature. <br>
+
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+1. Click on the Wizard button
+2. Select you a game from the list by highlighting it
+3. Click the CREATE button and input a character name [[ example:  Kyndig (dwarf warrior) ]]
+4. Select a proxy if required and then click 'OK'
+</FONT></PRE></TD></TR></TABLE><br>
+The client will then attempt to connect to the selected game. If you create any specific
+software settings, such as aliases/triggers/macros - they will be stored in your OPEN dialogue
+under the character name you input.<p>
+To overwrite any stored characters, you can select the WIZARD and CREATE a new character with the
+same name, or simply delete the character name from the OPEN dialogue.<p>
+<ul>Features of the Game List Wizard include:
+    <li>Full game list that is updated through the UPDATE button</li>
+    <li>Sorting by fields in each list</li>
+    <li>Top 30 Games</li>
+    <li>Featured Game Sponsor</li>
+    <li>Search feature that is filterable by fields</li>
+    <li>Column selectable fields for listing ( game name, host, intro, theme, codebase, etc )</li>
+    <li>General Info and Description fields per game</li>
+    <li>Linked URL to take you directly to that games page for quick-voting</li>
+</ul>
+
+<BR>&#160;
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<LAYER ID="section_b"></LAYER>
+<A NAME="c" CLASS="an"></A><P><H3>Quick Connect</H3><P>
+
+<a href='grafix/connect_big.png' rel="lightbox" title="Quick Connect">
+                <img src="grafix/connect_thumb.png"></a><br>Quick Connect
+<br>
+The Quick Connect window, located under <strong>Character -> Quick Connect</strong>
+lets you input the host, port, and select a proxy from your global settings.<p>
+The Quick Connect is handy for a quick connection to log into a mud. It should not
+be used though if you plan on keeping a character on that text game. Each Quick Connect
+action creates a new entry in the 'Open' dialogue window.<p>
+
+<BR>&#160;
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<LAYER ID="section_b"></LAYER>
+<A NAME="d" CLASS="an"></A><P><H3>Open Dialogue</H3><P>
+<a href='grafix/open_big.png' rel="lightbox" title="Open Dialogue">
+                <img src="grafix/open_thumb.png"></a><br>Open Dialogue
+<br>
+Shortcut: <strong>CNTRL+O</strong> Location: <strong>Character -> Connect</strong> or
+<strong>Open Icon</strong><br>
+The Open Dialogue allows you to access previously stored settings on a game-by-game and
+name-by-name basis. Have multiple characters for your favorite mud? You can create an
+entry for each player.<br>
+<ul>The Open Dialogue Supports
+    <li>Saving Profile game settings on a game-by-game basis</li>
+    <li>Saving Profile game settings on a player-by-player basis</li>
+    <li>Import/Export of profile settings (alias,triggers,macros,etc) with mudmagic.com account</li>
+    <li>Delete unused stored settings</li>
+    <li>on-demand proxy changing on an entry-by-entry basis</li>
+</ul>
+<p>
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<FONT SIZE="1"><BR><I>Copyright &#160;&#169;
+ 2004-02-26 &#160;<A HREF="mudmagic.html">MudMagic.Com</A></I></FONT>
+<LAYER ID="EOP"></LAYER>
+</BODY></HTML>

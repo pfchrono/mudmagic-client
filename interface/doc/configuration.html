@@ -1,0 +1,153 @@
+<HTML><!-- (c) jSh:Services -->
+<HEAD><TITLE>Configurations</TITLE>
+<LINK REL=StyleSheet TYPE="text/css" HREF="treeview.css">
+<META NAME="robots" CONTENT="index,follow">
+
+<SCRIPT LANGUAGE="JavaScript"><!--
+function myError(msg, url, line) { redirect(); return true; }
+window.onerror = myError;
+window.defaultStatus = "JavaScript TreeView documentation";
+function redirect() { if (window.stop) window.stop();
+ var newPage = "index.htm#href=index.html"+ location.hash;
+ if (document.images) top.location.replace(newPage);
+ else top.location.href = newPage;
+} if (""+window.innerWidth != "0") // NS4:not printing
+if ((top.name == "JS_TreeView_docu" && top.frames.length == 0)
+ || (top.name != "JS_TreeView_docu")) {
+ text = "\nThis page normally belongs inside a navigation frame.\n\n";
+ if (confirm(text +"Is it OK to reload the page as designed ?"))
+  redirect(); }
+if (top.index && top.index.loaded && top.index.viewKey != '0')
+ top.index.index('+0'); // --></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.2"><!--
+ENUM = new Array(); doneENUM = false;
+isNS = false; if (document.layers) isNS = true;
+if (isNS || (document.all && document.all.item))
+ setInterval("watchPageMarker();", 250);
+function getENUM() { if (doneENUM) return; tmpENUM = new Array();
+ if (isNS) tmpENUM = document.layers;
+ else tmpENUM = document.all.tags("LAYER");
+ if (tmpENUM.length > ENUM.length) ENUM = tmpENUM; else doneENUM = true; }
+function watchPageMarker() { if (top.index && top.index.index) { EY = 0;
+if (document.layers) { PY = window.pageYOffset; IH = window.innerHeight;
+ if (document.layers.EOP) EY = document.layers.EOP.pageY; }
+else { PY = document.body.scrollTop; IH = document.body.clientHeight;
+ if (document.all.item("EOP")) EY = document.all.item("EOP").offsetTop; }
+getENUM(); currY = PY+(IH/3); if (EY-IH-75 < PY) currY = EY; currSec = "";
+for (i = 0; i < ENUM.length; i++) {
+ if ((SN = ""+ (isNS ? ENUM[i].name : ENUM[i].id)).indexOf("section") > -1)
+  if ((SY = (isNS ? ENUM[i].pageY : ENUM[i].offsetTop)) < currY) {
+   currSec = SN; if (SY > PY - 50) break; }} currKey = currSec.substr(8);
+if ((currKey != "") && (top.index.viewKey != currKey))
+ top.index.index("+"+ currKey); }} // --></SCRIPT>
+<script type="text/javascript" src="lightbox.js"></script>
+<link rel="stylesheet" href="lightbox.css" type="text/css" media="screen" />
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#CC0000" VLINK="#990066" ALINK="#CC0000"
+ ONLOAD="window.onerror=myError; if (top.index && top.index.loaded && top.index.viewKey != '0') top.index.index('+0');initLightbox();">
+
+<LAYER ID="section_0"></LAYER>
+<A NAME="*" CLASS="an"><font size="1">&#160;</font></A>
+
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<P>
+<B><h3><a name="da">Proxy Usage</a></h3></B>
+<a href='grafix/proxy_big.png' rel="lightbox" title="Proxy Configuration">
+                <img src="grafix/proxy_thumb.png"></a><br>Proxy Configuration
+<p>
+Located in: <strong>Settings -> Global Settings -> Proxies</strong><br>
+Proxying allows you to connect to a remote computer, and pass both input &
+output through the connection. This type of connectivity is primarily used when
+you are behind a strict firewall. Most firewall's will allow certain ports to
+be accessed; port 80 (http), port 443 (https), and port 22 (ssh) are common
+ports left untouched by firewalls.<p>
+<ul>The MudMagic Mud Client proxy configuration allows you to
+	<li>set your own login details for a remote proxy</li>
+	<li>use the public mudproxy.mudmagic.com proxy</li>
+	<li>set no proxy</li>
+	<li>Set a 'Default' proxy setting when connecting to new games</li>
+	<li>Add, Edit, Remove stored proxy settings</li>
+</ul>
+For the mudproxy.mudmagic.com (labelled: MudMagic), this Proxy is available for
+connection to any of the games listed in MudMagic.Com Game List. The default port
+is set to 443. Other ports available at mudproxy.mudmagic.com are: 80, and 22.
+ The MudMagic Mud Proxy Server is available as OpenSource as well. It was developed
+by text game hobbyist <a href='http://blogs.awesomeplay.com/elanthis/index.php/archives/2004/09/14/193/'
+ target='_new'>Sean Middletech</a>, and can be retrived from <a 
+href='http://www.mudmagic.com/java-client/proxy.tar.gz'>Here</a><p>
+
+<BR>&#160;
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<LAYER ID="section_b"></LAYER>
+<A NAME="db" CLASS="an"></A><P><H3>Command Seperator</H3><P>
+
+<a href='grafix/seperator_big.png' rel="lightbox" title="Command Seperator">
+                <img src="grafix/seperator_thumb.png"></a><br>Command Seperator
+<br>
+Located in: <strong>Settings -> Global Settings -> Strings</strong><br>
+The command seperator allows you to pass multiple commands on the same line. For
+example, you want to go: north, north, east, west. Instead of typing this in several
+times, you can set your command seperator to: ';' and just type in: north;north;east;west
+once. The seperator string you set is also used in the scripting engine of the software.
+<p>
+
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<LAYER ID="section_b"></LAYER>
+<A NAME="dc" CLASS="an"></A><P><H3>Sound Support</H3><P>
+
+<a href='grafix/sound1_big.png' rel="lightbox" title="Sound Setting">
+                <img src="grafix/sound1_thumb.png"></a><br>Sound Setting
+<br>
+Located in: <strong>Settings -> Global Settings -> Sound</strong><br>
+Mud Sound Protocol (MSP) is supported by this client. To use this feature on Linux
+or MAC, you have to set the location of your wav,mp3, and midi player. You can also
+select to automatically download music based off game tags sent. For Window users,
+the sound engine used by your Windows OS is the same one used in the client.<p>
+
+<strong>Sound Event Triggers</strong>
+<a href='grafix/sound2_big.png' rel="lightbox" title="Sound Event Triggers">
+                <img src="grafix/sound2_thumb.png"></a><br>Sound Event Triggers
+Located in: <strong>Settings -> Global Settings -> Actions -> Triggers</strong> (for global storage)<br>
+Located in: <strong>Profile -> Actions -> Triggers</strong> (for game specific storage)<p>
+You can create a triggered sound event. A trigger performs a certain action, whenever text
+on the screen, matches your trigger event. In this image, you can see that a redalert.wav file
+is played, whenever the statement: You can now quest again.   appears on the screen.<br>
+<strong>To test out your triggers or aliases, use the Tools -> Trigger & Alias Testing , to
+execute the trigger statement</strong>
+
+<p>
+
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<LAYER ID="section_b"></LAYER>
+<A NAME="dd" CLASS="an"></A><P><H3>Theme Support</H3><P>
+
+<a href='grafix/theme_big.png' rel="lightbox" title="Theme Engine">
+                <img src="grafix/theme_thumb.png"></a><br>Theme Engine
+<br>
+This software makes use of the GTK+ Theme Engine. This allows you to modify
+    the look and feel of your client to your specifications. Wether you need
+    large text output, or are looking for a sleeker option - the theme engine
+    will support it. For more themes, visit <a href='http://www.gnome-look.org/' target='_new'>Gnome Look</a>
+<p>
+To update themes on your Windows OS, download the theme of your choice from the above website. And extract
+it into:<br> <strong>Installed MudMagic Directory\etc\share\themes</strong><p>
+To update themes on MAC OS X, download the theme of your choice, from the above website. And extract
+it into:<br> <strong>MudMagic.app/Contents/Resources/share/themes/</strong><p>
+To update themes on Linux OS distro's, use your gnome theme engine to retrieve and update.<p>
+
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<FONT SIZE="1"><BR><I>Copyright &#160;&#169;
+ 2004-02-26 &#160;<A HREF="mudmagic.html">MudMagic.Com</A></I></FONT>
+<LAYER ID="EOP"></LAYER>
+</BODY></HTML>

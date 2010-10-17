@@ -1,0 +1,128 @@
+<HTML><!-- (c) jSh:Services -->
+<HEAD><TITLE>Macros</TITLE>
+<LINK REL=StyleSheet TYPE="text/css" HREF="treeview.css">
+<META NAME="robots" CONTENT="index,follow">
+
+<SCRIPT LANGUAGE="JavaScript"><!--
+function myError(msg, url, line) { redirect(); return true; }
+window.onerror = myError;
+window.defaultStatus = "JavaScript TreeView documentation";
+function redirect() { if (window.stop) window.stop();
+ var newPage = "index.htm#href=index.html"+ location.hash;
+ if (document.images) top.location.replace(newPage);
+ else top.location.href = newPage;
+} if (""+window.innerWidth != "0") // NS4:not printing
+if ((top.name == "JS_TreeView_docu" && top.frames.length == 0)
+ || (top.name != "JS_TreeView_docu")) {
+ text = "\nThis page normally belongs inside a navigation frame.\n\n";
+ if (confirm(text +"Is it OK to reload the page as designed ?"))
+  redirect(); }
+if (top.index && top.index.loaded && top.index.viewKey != '0')
+ top.index.index('+0'); // --></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.2"><!--
+ENUM = new Array(); doneENUM = false;
+isNS = false; if (document.layers) isNS = true;
+if (isNS || (document.all && document.all.item))
+ setInterval("watchPageMarker();", 250);
+function getENUM() { if (doneENUM) return; tmpENUM = new Array();
+ if (isNS) tmpENUM = document.layers;
+ else tmpENUM = document.all.tags("LAYER");
+ if (tmpENUM.length > ENUM.length) ENUM = tmpENUM; else doneENUM = true; }
+function watchPageMarker() { if (top.index && top.index.index) { EY = 0;
+if (document.layers) { PY = window.pageYOffset; IH = window.innerHeight;
+ if (document.layers.EOP) EY = document.layers.EOP.pageY; }
+else { PY = document.body.scrollTop; IH = document.body.clientHeight;
+ if (document.all.item("EOP")) EY = document.all.item("EOP").offsetTop; }
+getENUM(); currY = PY+(IH/3); if (EY-IH-75 < PY) currY = EY; currSec = "";
+for (i = 0; i < ENUM.length; i++) {
+ if ((SN = ""+ (isNS ? ENUM[i].name : ENUM[i].id)).indexOf("section") > -1)
+  if ((SY = (isNS ? ENUM[i].pageY : ENUM[i].offsetTop)) < currY) {
+   currSec = SN; if (SY > PY - 50) break; }} currKey = currSec.substr(8);
+if ((currKey != "") && (top.index.viewKey != currKey))
+ top.index.index("+"+ currKey); }} // --></SCRIPT>
+<script type="text/javascript" src="lightbox.js"></script>
+<link rel="stylesheet" href="lightbox.css" type="text/css" media="screen" />
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#CC0000" VLINK="#990066" ALINK="#CC0000"
+ ONLOAD="window.onerror=myError; if (top.index && top.index.loaded && top.index.viewKey != '0') top.index.index('+0');initLightbox();">
+
+<LAYER ID="section_0"></LAYER>
+<A NAME="*" CLASS="an"><font size="1">&#160;</font></A>
+
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<P>
+<B><h3><a name="a">Macro Definition</a></h3></B>
+Macro's allow you to map Keystrokes to command output. Examples of keystrokes are: F1, F2, F3, [CNTRL]+A, [ALT]+A,
+etc.
+<p>
+You can use: <br>
+  an <strong>F#</strong> key, a <strong>[CNTRL]+(anything)</strong> key, or an <strong>[ALT]+(anything)</strong> key
+Replace [CNTRL] with the actual control key, and [ALT] with the actual ALT key.
+<p>
+The nice thing about Macro's is that when you create one, a button is created on the client on a per game basis. With 
+this button, you can click it to automatically execute your script. This is much similiar to Aliases. Unlike aliases 
+though, Macro's support toolbar button clicking.
+
+<ol>	To create a new Macro:
+	<li>Profile -> Actions -> Macro</li>
+	<li>click on CAPTURE button</li>
+	<li>enter the keystroke combination for the macro</li>
+	<li>provide a unique macro title (this is viewed on the button)</li>
+	<li>select to output Text, or a script language</li>
+</ol>
+<strong>Known Bug: As of version 1.9, a known bug is that when you create a MACRO, it does not immediately appear
+as a button on your toolbar. To fix this, open up: <b>PROFILE -> MUD PREFERENCES / click FONT and immediately click 
+OK</b> That will reset the toolbar</strong>
+
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+	Example:
+	Capture: F1
+	Macro Title: Baghanny
+	Action: Text
+	------------------
+	recall;se;se;give 1 gold jack;w;w;w;n;n;w;w;s;s;s;
+</font></pre></td></tr></table>
+
+<P>
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+<p>
+
+<B><h3><a name="b">Scope of Macro's</a></h3></B>
+Macro's can be stored as Local game macro's, or Global world macro's. Local game macro's are only available for that 
+specific game you are connected to and the Macro Buttons are viewed only on that specific game tabs. Global Macro's can 
+be used on any game and the Macro Buttons are viewed on all game tabs.
+<p>
+Global Macro editing <br>
+<strong>Setting -> Global Settings -> Actions -> Macros</strong>
+<p>
+Local game macro's, visit<br>
+<strong>Profile -> Actions -> Macros</strong>
+<p>
+
+All macro's are stored and saved on a per-game basis. So each game has its own unique macro system. Global macro's 
+are the only exception to this rule - where they are available to any game. Macro's are Imported/Exported through the 
+<strong>Tools -> Remote Storage</strong> feature.
+
+<P>
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+<p>
+
+<B><h3><a name="c">Scripting Support</a></h3></B>
+Macro's can use either Python or the MudMagic BASIC scripting language. For Python scripts - you would point to the 
+file that contains your python script. For script language assistance, click on Scripting to the left.
+
+<p>
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<FONT SIZE="1"><BR><I>Copyright &#160;&#169;
+ 2004-02-26 &#160;<A HREF="mudmagic.html">MudMagic.Com</A></I></FONT>
+<LAYER ID="EOP"></LAYER>
+</BODY></HTML>

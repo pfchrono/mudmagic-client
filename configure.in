@@ -1,0 +1,434 @@
+AC_PREREQ(2.57)
+AC_INIT
+
+MUDMAGIC_MAJOR_VER=1
+MUDMAGIC_MINOR_VER=9
+MUDMAGIC_PATCH_VER=0
+MUDMAGIC_VER=$MUDMAGIC_MAJOR_VER.$MUDMAGIC_MINOR_VER
+
+dnl Libtool version for libmudmagic.so
+MUDMAGIC_LIB_VERSION=$MUDMAGIC_MAJOR_VER:$MUDMAGIC_MINOR_VER:1
+AC_SUBST(MUDMAGIC_LIB_VERSION)
+
+AM_INIT_AUTOMAKE(mudmagic, $MUDMAGIC_VER)
+AM_CONFIG_HEADER(config.h)
+
+AC_SUBST(MUDMAGIC_MAJOR_VER)
+AC_SUBST(MUDMAGIC_MINOR_VER)
+AC_SUBST(MUDMAGIC_PATCH_VER)
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_PROG_CXX
+AC_LANG_CPLUSPLUS
+dnl AC_PROG_INSTALL
+AC_PROG_LIBTOOL
+AC_SUBST(LIBTOOL_DEPS)
+dnl AM_PROG_CC_C_O
+AM_ENABLE_SHARED
+
+bundle_libdir="$libdir/mudmagic/libs"
+mudmagic_libdir="$libdir/mudmagic/"
+
+sql_libname="libsqlite3.so.0"
+pcre_libname="libpcre.so.0"
+mxp_libname="libmxp.so.0"
+
+AC_SUBST(bundle_libdir)
+AC_SUBST(mudmagic_libdir)
+AC_SUBST(sql_libname)
+AC_SUBST(pcre_libname)
+AC_SUBST(mxp_libname)
+
+# Checks for libraries.
+
+AC_ARG_ENABLE(debug,       [  --enable-debug          compile with debugging symbols],,enable_debug=no)
+AC_ARG_ENABLE(profile,     [  --enable-profile        compile with profiling support],,enable_profile=no)
+
+#############################
+# Gtk Version for our
+# ToolBar Plugins
+#############################
+#-remove this when GtkUI replaces
+#-the toolbar
+#-I went with version 2.3.0, but don't know
+#-exactly when gtk_toolbar_append_element 
+#-was deprecated
+AC_MSG_CHECKING([for gtk+ 2.8 API])
+
+if pkg-config --modversion "gtk+-2.0 >= 2.3.0" > /dev/null 2>&1; then
+    AC_MSG_RESULT([found])
+    GTK_CFLAGS="$GTK_CFLAGS -DGTK_GREATER_THAN"
+	if pkg-config --modversion "gtk+-2.0 >= 2.8.9" > /dev/null 2>&1; then
+		GTK_CFLAGS="$GTK_CFLAGS -DGTK_2_8_9_PLUS"
+	fi
+else
+   AC_MSG_RESULT([newer than 2.3 not found])
+fi
+
+G_CFLAGS=`pkg-config --cflags gtk+-2.0`
+GTK_CFLAGS="$GTK_CFLAGS $G_CFLAGS"
+
+GTK_LIBS=`pkg-config --libs gtk+-2.0`
+
+# before gettexting, in case iconv matters
+case "$host_os" in
+darwin*)
+	GTK_CFLAGS="$GTK_CFLAGS -DHAVE_MACOS"
+	;;
+*)
+	;;
+esac
+
+############################
+# Python [VERSION or exit()]
+############################
+FOUND_PYTHON=no
+PYTHON_CXXFLAGS=""
+PYTHON_LIBS=""
+
+PYTHON_binchk="python python2 python2.2 python2.3 python2.4"
+for i in ${PYTHON_binchk};
+do
+    PYTHON_check=`$i -V 2>/dev/null; echo $?`
+    if test ${PYTHON_check} -eq 0;
+    then
+        FOUND_PYTHON=yes
+    fi
+
+    dnl
+    dnl Change autoconf quote characters temporarily.
+    dnl
+    changequote(<<, >>)dnl
+
+    if test "x${FOUND_PYTHON}" = "xyes";
+    then
+	PY_PREFIX=`$i -c 'import sys ; print sys.prefix'`
+    	PY_EXEC_PREFIX=`$i -c 'import sys ; print sys.exec_prefix'`
+
+        PYTHON_VERSION=`$i -V 2>&1 | awk "{print $NF}"`
+        if test `echo ${PYTHON_VERSION} | sed -e 's/\./ /g; s/[a-z|A-Z|+]/ /g' | awk '{print $1$2}'` -ge 22;
+        then
+            FOUND_PYTHON=yes
+            PYTHON_SHORT=`echo ${PYTHON_VERSION} | sed -e 's/\./ /g; s/[a-z|A-Z|+]/ /g' | awk '{print $1"."$2}'`
+            PYTHON_incchk="/usr/include/python /usr/include/python${PYTHON_SHORT} /usr/local/include/python /usr/local/include/python${PYTHON_SHORT} /sw/include/python /sw/include/python${PYTHON_SHORT}"
+
+	    PYTHON_incdir=""
+	    if test "x${FOUND_PYTHON}" = "xyes";
+	    then
+    	        for i in ${PYTHON_incchk};
+    	        do
+                    if test -f "$i/Python.h";
+	            then
+                	PY_CFLAGS="-I$i"
+
+			PYTHON_incdir=$i
+			PYTHON_LIBS="-lpython$PYTHON_SHORT -L$PY_EXEC_PREFIX/lib/python$PYTHON_SHORT/config"
+                	PYTHON_CFLAGS="$PY_CFLAGS"
+
+            	        break
+                    fi
+    	        done
+	    fi
+
+	    if test "x${PYTHON_incdir}" = "x";
+	    then
+    	        FOUND_PYTHON=no
+	    fi
+        else
+            FOUND_PYTHON=no
+        fi
+    fi
+
+    dnl
+    dnl Reset autoconf quote characters to brackets.
+    dnl
+    changequote([, ])dnl
+
+    if test "x${FOUND_PYTHON}" = "xyes";
+    then
+        PYTHON=$i
+        break
+    fi
+done
+
+if test "x${FOUND_PYTHON}" = "xno";
+then
+    AC_MSG_ERROR([*** Python version 2.2 or later not found!])
+fi
+AC_MSG_RESULT([python ${PYTHON_VERSION}])
+AC_CHECK_LIB(pthread, pthread_create, )
+AC_CHECK_LIB(util, openpty, )
+AC_CHECK_LIB(db, dbopen, )
+
+##############
+# SQLite Check
+##############
+FOUND_SQLITE=""
+AC_CHECK_HEADERS(sqlite3.h,, FOUND_SQLITE="no")
+if test "$FOUND_SQLITE" = "no"
+then
+	SQLITE_LIBS=
+	SQLITE_CFLAGS="-I\$(top_builddir)/bundled/sqlite3"
+	SQLITE_CONFIG_MSG="Missing: Installing bundled"
+	BUNDLED_LIBS="\$(top_builddir)/bundled/libsqlite3.la"
+	AM_CONDITIONAL(MISSING_SQLITE, true)
+else
+	SQLITE_LIBS=-lsqlite3
+	SQLITE_CFLAGS="-I/usr/local/include/sqlite -I/usr/include/sqlite"
+	SQLITE_CONFIG_MSG="Found"
+	AM_CONDITIONAL(MISSING_SQLITE, false)
+fi
+
+##############
+# LibGlade Check
+##############
+# FOUND_LIBGLADE=""
+# AC_CHECK_HEADERS(glade/glade.h,, FOUND_LIBGLADE="no")
+# if test "$FOUND_LIBGLADE" = "no"
+if pkg-config libglade-2.0 --cflags >/dev/null 2>&1
+then
+        echo "Checking how we can gather information about libglade2..."
+        if pkg-config libglade-2.0 --cflags >/dev/null 2>&1; then
+                libgladeconfig="pkg-config libglade-2.0"
+                modver=--modversion
+        else
+                LOC_MSG([*** libglade-2.0 not found. Most probably the libglade you installed is a private])
+                LOC_MSG([*** library. Please check your libglade install and try again])
+                AC_MSG_ERROR([** unable to locate libglade-2.0 with pkg-config **])
+        fi
+        XML2_CFLAGS=
+        XML2_LIBS=
+        LIBGLADE_LIBS=`$libgladeconfig --libs`
+        LIBGLADE_CFLAGS=`$libgladeconfig --cflags`
+        LIBGLADE_CONFIG_MSG="Found"
+        AM_CONDITIONAL(MISSING_LIBGLADE, false)
+else
+	###
+	#since we're compiling libglade - we need glib.h, make sure its there
+	###
+	echo "Checking how we can gather information about glib..."
+	if pkg-config glib-2.0 --cflags >/dev/null 2>&1; then
+		glibconfig="pkg-config glib-2.0"
+		modver=--modversion
+	else
+		LOC_MSG([*** glib.h not found. You can either install glib-devel to compile bundled/libglade])
+		LOC_MSG([*** or install 'libglade' itself and you won't have to use the bundled version])
+		AC_MSG_ERROR([** glib.h not found **])
+	fi
+	echo "(I'll use '$glibconfig' to gather that information.)"
+	GLIB_CFLAGS=`$glibconfig --cflags`
+	GLIB_LIBS=`$glibconfig --libs`
+
+	###
+	#also need xml to compile libglade-already looked for xml2 and passed
+	###
+	echo "Checking how we can gather information about libxml2..."
+        if pkg-config libxml-2.0 --cflags >/dev/null 2>&1; then
+                xmlconfig="pkg-config libxml-2.0"
+                modver=--modversion
+        elif xml2-config --cflags >/dev/null 2>&1; then
+                xmlconfig='xml2-config'
+                modver=--version
+        else
+                LOC_MSG([*** xml/parser.h not found. You can either install libxml2-devel to compile bundled/libglade])
+                LOC_MSG([*** or install 'libglade2' itself and you won't have to use the bundled version])
+                AC_MSG_ERROR([** xml/parser.h not found **])
+        fi
+        echo "(I'll use '$xmlconfig' to gather that information.)"
+        LIBXML_CFLAGS=`$xmlconfig --cflags`
+        LIBXML_LIBS=`$xmlconfig --libs`
+
+	LIBGLADE_LIBS="-L $GLIB_LIBS $XML2_LIBS"
+	LIBGLADE_CFLAGS="-I\$(top_builddir)/bundled/libglade"
+	LIBGLADE_CONFIG_MSG="Missing: Installing bundled"
+	BUNDLED_LIBS="$BUNDLED_LIBS \$(top_builddir)/bundled/libglade-2.0.la"
+	AM_CONDITIONAL(MISSING_LIBGLADE, true)
+fi
+
+##############
+# ZLib Check
+##############
+FOUND_ZLIB=""
+AC_CHECK_HEADERS(zlib.h,, FOUND_ZLIB="no")
+if test "$FOUND_ZLIB" = "no"
+then
+	ZLIB_LIBS=
+	ZLIB_CFLAGS="-I\$(top_builddir)/bundled/zlib"
+        ZLIB_CONFIG_MSG="Missing: Installing bundled"
+        AM_CONDITIONAL(MISSING_ZLIB, true)
+else
+        ZLIB_LIBS=-lz
+        ZLIB_CFLAGS="-I/usr/local/include/zlib -I/usr/include/zlib"
+        ZLIB_CONFIG_MSG="Found"
+        AM_CONDITIONAL(MISSING_ZLIB, false)
+fi
+
+##############
+# PCRE Check
+##############
+FOUND_PCRE=""
+AC_CHECK_HEADERS(pcre.h,, FOUND_PCRE="no")
+if test "$FOUND_PCRE" = "no"
+then
+	PCRE_LIBS=
+	PCRE_CFLAGS="-I\$(top_builddir)/bundled/pcre"
+	PCRE_CONFIG_MSG="Missing: Installing bundled"
+	BUNDLED_LIBS="$BUNDLED_LIBS \$(top_builddir)/bundled/libpcre.la"
+	AM_CONDITIONAL(MISSING_PCRE,true)
+else
+	PCRE_LIBS=-lpcre
+	PCRE_CFLAGS="-I/usr/include/pcre"
+	PCRE_CONFIG_MSG="Found"
+	AM_CONDITIONAL(MISSING_PCRE,false)
+fi
+
+##############
+# LibMXP Check
+##############
+AC_CHECK_LIB(mxp, mxpCreateHandler, [found_libmxp=yes], [found_libmxp=no])
+if test "$found_libmxp" = "no"
+then
+	MXP_LIBS=
+	MXP_CFLAGS="-I\$(top_builddir)/bundled/"
+	MXP_CONFIG_MSG="Missing: Installing bundled"
+	BUNDLED_LIBS="$BUNDLED_LIBS \$(top_builddir)/bundled/libmxp.la"
+	AM_CONDITIONAL(MISSING_LIBMXP, true)
+else
+	FOUND_LIBMXP=yes
+	MXP_LIBS="-lmxp"
+	MXP_CFLAGS="-I/usr/local/include"
+	MXP_CONFIG_MSG="Found"
+	AM_CONDITIONAL(MISSING_LIBMXP, false)
+fi
+
+##############
+# LibCURL Check
+##############
+AC_EGREP_HEADER(CURLOPT_CONNECT_ONLY, curl/curl.h, [FOUND_LIBCURL=yes], [FOUND_LIBCURL=no])
+if test "$FOUND_LIBCURL" = "no"
+then
+	CURL_LIBS=
+	CURL_CFLAGS="-I\$(top_builddir)/bundled/curl"
+	CURL_CONFIG_MSG="Missing: Installing bundled"
+	BUNDLED_LIBS="$BUNDLED_LIBS \$(top_builddir)/bundled/libcurl.la"
+	AM_CONDITIONAL(MISSING_LIBCURL, true)
+else
+	FOUND_LIBCURL=yes
+	CURL_LIBS="-lcurl"
+	CURL_CFLAGS="-I/usr/local/include"
+	CURL_CONFIG_MSG="Found"
+	AM_CONDITIONAL(MISSING_LIBCURL, false)
+fi
+
+
+AC_SUBST(MISSING_PCRE)
+AC_SUBST(MISSING_LIBMXP)
+AC_SUBST(MISSING_ZLIB)
+AC_SUBST(MISSING_SQLITE)
+AC_SUBST(MISSING_LIBGLADE)
+AC_SUBST(MISSING_LIBCURL)
+
+AC_CHECK_LIB(
+	gthread-2.0,main,,echo "gthread library NOT available"; exit 1,`pkg-config --libs gthread-2.0`
+)
+
+# Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS([arpa/inet.h netdb.h netinet/in.h stdlib.h string.h sys/socket.h unistd.h])
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+
+# Checks for library functions.
+AC_FUNC_STRFTIME
+AC_CHECK_FUNCS([gethostbyname memset mkdir socket strchr])
+
+##############
+# Debugging
+###############
+
+dnl Have we asked for debugging?
+if test "$enable_debug" = yes ; then
+    DEBUG="-g -Wall -DDEBUG"
+else
+    DEBUG=""
+fi
+
+dnl Check for profiling
+if test "$enable_profile" = yes ; then
+    PROFILE="-pg"
+else
+    PROFILE=""
+fi
+
+
+######################
+# Export Variables
+#####################
+MUDMAGIC_LIBS="-L\$(top_builddir)/src libmudmagic.la"
+AC_SUBST(MUDMAGIC_LIBS)
+
+AC_SUBST(aclocaldir)
+AC_SUBST(DEBUG)
+AC_SUBST(PROFILE)
+
+AC_SUBST(GTK_LIBS)
+AC_SUBST(GTK_CFLAGS)
+
+AC_SUBST(LIBGLADE_CFLAGS)
+AC_SUBST(LIBGLADE_LIBS)
+
+AC_SUBST(LIBXML_CFLAGS)
+AC_SUBST(LIBXML_LIBS)
+
+AC_SUBST(PCRE_LIBS)
+AC_SUBST(PCRE_CFLAGS)
+
+AC_SUBST(MXP_LIBS)
+AC_SUBST(MXP_CFLAGS)
+
+AC_SUBST(SQLITE_CFLAGS)
+AC_SUBST(SQLITE_LIBS)
+
+AC_SUBST(PYTHON_CFLAGS)
+AC_SUBST(PYTHON_LIBS)
+
+AC_SUBST(ZLIB_CFLAGS)
+AC_SUBST(ZLIB_LIBS)
+
+AC_SUBST(CURL_CFLAGS)
+AC_SUBST(CURL_LIBS)
+
+AC_SUBST(BUNDLED_LIBS)
+
+AC_OUTPUT([Makefile
+	   bundled/Makefile
+	   src/Makefile
+	   doc/Makefile
+	   doc/man/Makefile
+       	   interface/Makefile
+	   mudmagic
+	   mudmagic.pc
+	   mudmagic.spec
+          ],[
+	   chmod +x mudmagic
+	  ])
+
+###############
+# Config Output
+###############
+LOC_MSG([MudMagic is now configured as follows])
+LOC_MSG([  Version..................: ${MUDMAGIC_VER}])
+LOC_MSG([  Installation directory...: ${prefix}])
+LOC_MSG([  C compiler...............: ${CC} ${CFLAGS} ${DEBUG}])
+LOC_MSG([  C++ compiler.............: ${CXX} ${CXXFLAGS} ${DEBUG}])
+LOC_MSG([  SQLite support...........: ${SQLITE_CONFIG_MSG}])
+LOC_MSG([  LibMXP support...........: ${MXP_CONFIG_MSG}])
+LOC_MSG([  PCRE support.............: ${PCRE_CONFIG_MSG}])
+LOC_MSG([  Zlib support.............: ${ZLIB_CONFIG_MSG}])
+LOC_MSG([  Python support...........: ${PYTHON_VERSION}])
+LOC_MSG([  LibGlade support.........: ${LIBGLADE_CONFIG_MSG}])
+LOC_MSG([  LibCURL support..........: ${CURL_CONFIG_MSG}])
+LOC_MSG([  Debugging support........: ${enable_debug}])
+LOC_MSG([  Profile support..........: ${enable_profile}])

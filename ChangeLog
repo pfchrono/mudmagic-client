@@ -1,0 +1,317 @@
+1.9:
+---------
+* Mar 2006
+Victor Vorodyukhin < victor.scorpion@gmail.com >
+	- tools
+		* added dialog window for script testing
+		* added dialog window for passing long text to client
+		* added dialog window for viewing session log files
+		* added ability for commands sheduling
+		* added support of remote storage for keeping session settings on dedicated server
+	- network
+		* added proxy support
+	- interface and usability
+		* added connectivity to system browser
+		* added ability for keeping MudMagic account credentials for remote storage access purposes
+		* user defined browser used to open MudMagic web site for recovering forgotten password
+		* added Featured Game icon to main window
+		* added game icon support to Saved Characters dialog
+		* added proxy server selection ability for saved games
+	- user defined actions
+		* added support for sound capable triggers
+		* added support for popup message type triggers
+		* added support for plain text type actions (aliases, triggers and macros)
+	- Connection Wizard 
+		* added support for game icons
+		* game list separated by 'All', 'Top 30' and 'Featured Game' now
+		* added search dialog
+		* added ability for hiding user selected game entry colums
+		* user defined browser used to open game link
+	- Scripting
+		* python scripts now stored in software for import/export
+
+Tomas Mecir <kmuddy@kmuddy.net>:
+        -MXP support fully implemented
+                *gauge values located in Profile
+                *MXP variable settings located in Profile
+
+Kyndig <kyndig@mudmagic.com>
+	-Deleting an entry in the OPEN dialogue now works on windows
+	-Concatenation in BASIC language now supports '.' character
+		* send "This is a".$test;
+	-Removed text based documentation and added in HTML based documentation
+		* much more documentation added - much more documentation to go
+
+Applied Patches: < http://www.mudmagic.com/mud-client/boards >
+< Pythos >
+- src/interface/data.c 
+	don't add sent lines to the sent-command-history list, when server
+        is responsible for echoing. 
+- src/protocols/telnet.c
+	* IAC_GA, IAC_EOR added. 
+	* TELOPT_END_OF_RECORD added
+	* prevent client from losing data at the end of a cutoff zlib stream
+	  when the client has read more data than is currently in the stream
+
+< Vanthar >
+Forum Feedback: < http://www.mudmagic.com/mud-client/boards >
+- interface/interface.glade
+	spelling error,  -Settings/Strings: 
+	"Command seperator string" (<-"separator")
+
+1.8:
+---------
+* Feb 2006
+Shlykov Vasiliy < vash@vasiliyshlykov.org >
+	- rewrote autoconf
+	- modified configuration storage
+		* new storage method and file saving
+		* provides backwards compatibility
+	- created MudMagic BASIC language scripting [ iscript.c ]
+		* provides full <,>,<=.>=,+ and standard BASIC features
+		* provides PRINT and SEND commands for client callback
+		* provides REM for inline commenting
+		* provides $MESSAGEBOX for popup window callback
+	- fixed Macro bug
+	- seperated network interaction and user interface
+	- new style log configuration
+		* installed DEBUG() system in log.h
+		* activated through --enable-debug
+		* prints to standard output when enabled various errors
+		* mdebug() wrapping
+	- New interface_show_error function.
+	- small ball indicator added to session tab when content changes on that tab
+	- command entry adjustments
+		* using the up-arrow key when focused on command now displays back history
+		* autocompletion is now available and toggable through configuration setting
+			- when multiple auto-completion words available, selectable dropdown
+			  window provides suggestive recent history
+	- fixed invalid focus after run macro
+	- ported gamelist to xml UTF-8 [ gamelist.c ]
+	- added mudmagic gamelist only connectivity
+		* added checking for IP in Quick Connect dialog
+		* added checking on on_connect
+	- created RECORDER module for command input recording [ recorder.c ]
+		* provide keybindings for capturing of input text [ mudaccel.c ]
+	- fixed gzip error in gamelist storage
+	- ANSI color parsing now faster when using the client on windows
+		* due to older gtk version and network handling
+	- history buffer size can now be set in configuration
+	- ported modules to sqlite3
+
+- Calvin Kyndig Ellis <kyndig@mudmagic.com>
+	- documentation added
+		* added multiple help pages in the HELP for documentation
+	- CNTRL+R now reconnects a games current session
+	- added icon support to preferences 
+	- the Connect icon on the main window now opens the quick connect dialog
+	- updated bundled sqlite to sqlite3
+        - applied patches by Paul Howarth for autconf build to fix --prefix issue
+	- added telopt_ttype network patch by author < JD >
+		* provides terminal type message when requested
+	- disabled IP check for games in this version
+	- added new ABOUT dialog window to show authors, artists, packagers and documenters
+	- aliases catching now uses full PCRE expression handling
+	- popup windows now provide proper focusing
+	- added libglade bundling for linux compiling
+	- theme support added [ theme_select.c ]
+		* added theme support for Linux by way of gtk theme manger 
+		* added bundled theme support for window usage
+	- fixed bug in notes and database modules which prevented button clicking
+	- fixed crash in network when route to host is lost
+	- gtk on windows is now local in scope to prevent the client from causing
+	  other gtk apps that user an older network system from not working (gaim)
+		* allows MudMagic to be run locally without required installation
+		* distributing client as a basic zip file for CD/memory-stick usage
+	- obscene amount of Fedora spec file adjustments
+		* https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=176200
+
+ - Tomas Mecir  <kmuddy@kmuddy.net>
+	- ported plugin shared objects to static [ src/module/* src/modules/* ]
+		* removed plugins-extra/*
+		* modified autobuild for compiling
+	- autoconf adjustments for cross OS comptability
+
+1.7-rev-a
+---------
+* Aug 2005
+ - Calvin Ellis <kyndig@mudmagic.com>
+        - modified mudmagic.h to use the python detection routine of
+          configure for compiling on different platforms.
+          [ src/script/script.h ]
+        - modified plugins to use a GTK_GREATHER_THAN instead of HAVE_WINDOWS
+          in order to use the toolbar_modify function on linux distro's
+          with a version of Gtk greater than 2.2
+          [ plugins-extra/database.c plugins-extra/notes.c configure.in ]
+	- moved the compiling of plugins to its own Makefile.am in the
+	  plugins-extra directory and added in some linking. This still
+	  needs some cleaning up though
+	- removed a small glitch that was preventing the download of the
+	  game listings from mudmagic website
+	- Packaged for stock Fedora Core 4. Rebundled source distro and
+	  re-releasing under 1.7. ( compiles out of the box on GCC 4.x now)
+
+1.7
+-------
+* July 2005
+ - Tomas Mecir  <kmuddy@kmuddy.net>
+	- aliases & triggers now support command line input
+	  in the input area of the respective windows. Anything
+	  placed in this command window is sent directly to the
+	  client as input
+	- MXP support has been initiated. Current supported tags
+	  are Anchor, font coloring/modifying, image use and a few
+	  others.
+	- added: alias_triggers.c, removed them from the python
+	  scripting
+	- added variables.c for the beginning placement of MXP
+	  variables
+	- incorporated Tomas Mecir's LIBMXP to the client to handle
+	  all MXP routines.
+ - Calvin Kyndig Ellis <kyndig@mudmagic.com>
+	- modified configuration files for linux. This still needs
+	  additional work; as now the plugins are compiled with
+	  the client..and this shouldn't be (see: TODO)
+	- bundled: SQLite 2.8, LibMXP, Zlib, and PCRE with the client
+	  now. This bundling removes all needed server-side libs for
+	  installation of the client, with the exception of the standard
+	  Gtk libraries. The client should now work on any Linux distro
+	  that is using Gtk 2.2 or greater
+	- recompiled all bundled DLL for windows, created simple Makefile's
+	  for window compiling. See respective Makefile.win for instructions
+	  (these need updating: see TODO)
+	- repackaged Fedora release with all supportive libs compiled
+	  in. A binary install should work on any Fedora/RedHat release now.
+	- removed an unreleased call for the Gnome library, and replaced
+	  it with Gtk specific code to handle the opening of a web browser
+	  when a link is clicked on. ( We can't use Gnome libs, as gnome is
+	  not ported to windows )
+	- added strings.c and strings.h for a safer routine in string
+	  management
+	- modified updating of game list details in the wizard. The wizard
+	  now uses Gzip to download and decompress a compressed .gz game
+	  list. This makes updating the wizard with the latest games in the
+	  database faster.
+	- Disabled MACRO usage for now. A bug with the new trigger/alias
+	  system is causing it to fail. ( see: TODO ) 
+1.6
+--------
+* 14 May 2005
+ - Mart Raudsepp <leio@users.sf.net>
+        - the wizard now uses the downloaded game list directly without the
+          use of a database
+        - new eye-candish intro
+        - fixed mousewheel scrolling of MUD output
+        - GNU/Linux build system improvements
+                - sqlite2 is now optional, but all plugins depend on it and will
+                  not be built if sqlite2 is not found
+                - support for --enable-debug and --enable-profile
+                - fixes to solve various complation and runtime problems
+        - fixed inability to load the notes and database plugin with gtk+-2.6
+1.5
+-------
+* 22 Jan 2005
+ - Tomas Mecir <kmuddy@kmuddy.org>
+        - scrollback feature updated and more user friendly
+        - popup windows default to a reasonable size
+        - Help window can be maximized/minimized
+        - ';' splits commands, ';;' sends one ';'
+        - ANSI background color codes now work correctly
+        - added some less frequently used ANSI codes
+        - default font changed to monospace 12 (10 was way too small)
+        - mapper no longer crashes upon loading
+        - ';' expansion can now also be disabled
+        - fixed problem where you couldn't send commands to many MUDs,
+          which was caused by incorrect NAWS subnegotiation being sent
+ - Calvin Ellis <kyndig@mudmagic.com>
+        - new version control system. This is version 1.5
+        - rewrote the windows packaging system to use up-to-date GTK
+        - updated COMPILE.WINDOWS documentation
+
+1.0.4
+-------
+* 24 Oct 2004
+  - Calvin Ellis <kyndig@mudmagic.com>
+        - packaged for RedHat
+  - Noltar <noltar@korongil.net>
+        - packaged for Debian
+        - created manpage for mudmagic entry
+
+* 26 Oct 2004
+  - Michael Schwendt <mschwendt[AT]users.sf.net>
+        - rewrote spec file for Fedora Core
+  - Calvin Ellis <kyndig@mudmagic.com>
+        - repackaged for Fedora Core and redistributed source rpm
+          with the spec file from Michael Schwendt
+
+1.0.3
+-------
+        - replaced "website" code
+                - now the game list is directly imported into a database
+                - used transaction to handle "cancel click" and errors
+
+        - fixed scrollback on secondary output
+                - now secondary output disappears if user scrolls to the bottom
+                - secondary output is hidden instead of setting vpaned position
+                  on top
+                - now splitter position is preserved
+
+        - moved tabs from settings windows in menuitems
+
+        - added "quick connect" entry in character menu
+
+        - added "reconnect" entry in character menu
+
+        - fixed ANSI parser
+                - fixed telnet_process to handle codes spanned across
+                  multiple network packages
+                - added bold, italic and underline support
+
+        - added doc directory to hold client documentation for help menu
+
+        - added documentation on Script making, Plugin Use and General Help
+          under the Help pulldown
+
+        - fixed password bug
+                - now when MUD ask password and connection is closed input
+                  field is no more hidden
+
+        - fixed focus: keep focus on input field when tab is changed
+
+        - added documentation directory along with documentation on compiling
+          with windows. moved non-source related files to documentation/
+
+        - added contrib folder and moved mudmagic.spec as well as the windows
+          Setup NSI installer to this folder
+
+        - fixed mudmagic.spec to install plugins when an RPM is used
+
+        - added Makefile.win in the plugins-extra directory to recompile
+          current distributed plugins (automapper, database, notes)
+
+        - fixed background console window when client is run in MS Windows. The
+          console window with debug messages no longer appears
+
+1.0.2
+-------
+        - changed default font to "Monospace 10"
+        - replaced LF with CRLF in data sent to server
+        - added a progress window for http_download
+        - added a popup window when connection to a MUD fails
+        - added a popup window when connection is closed
+        - replaced the message window with a dialog
+        - added a popup menu when user right-clicks on a tab
+        - added telnet_reset function in telnet module
+        - fixed telnet echo option
+        - fixed telnet NAWS option
+        - changed window title and icon when some data is received from server
+          and window is minimized
+
+1.0.1
+-------
+        - added wordwrap for output
+        - added help menu
+
+1.0.0
+-------
+        - first release

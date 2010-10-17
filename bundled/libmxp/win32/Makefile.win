@@ -1,0 +1,76 @@
+# must run the following by hand after compile
+# dllwrap --def win32/libmxp.def -v --export-all --driver-name g++ --dlltool-name dlltool --as as --target i386-mingw32 -dllname libmxp.dll -lmsvcrt *.o
+# to produce the libmxp.dll
+
+STATICLIB = libmxp.a
+SHAREDLIB = libmxp.dll
+IMPLIB    = libxmp.a
+
+CC = g++
+CFLAGS = $(LOC) -O3 -Wall -DHAVE_WINDOWS
+
+AS = $(CC)
+ASFLAGS = $(LOC) -Wall
+
+LD = $(CC)
+LDFLAGS = $(LOC) -s
+
+AR = ar
+ARFLAGS = rcs -lstdc++
+
+RC = windres
+RCFLAGS = --define GCC_WINDRES
+
+CP = cp -fp
+# If GNU install is available, replace $(CP) with install.
+INSTALL = $(CP)
+RM = rm -f
+
+prefix = /usr/local
+exec_prefix = $(prefix)
+
+OBJS = celementmanager.o centitymanager.o cmxpcolors.o cmxpparser.o \
+	 cmxpprocessor.o cmxpstate.o cresulthandler.o libmxp.o stringops.o
+
+
+OBJA = 
+
+all: $(STATICLIB) 
+
+.c.o:
+	$(CC) $(CFLAGS) -c -o -DHAVE_WINDOWS $@ $<
+
+.S.o:
+	$(AS) $(ASFLAGS) -c -o $@ $<
+
+$(STATICLIB): $(OBJS) $(OBJA)
+	$(AR) $(ARFLAGS) $@ $(OBJS) $(OBJA)
+
+.PHONY: install uninstall clean
+
+install: libmxp.h $(LIB)
+	-@if not exist $(INCLUDE_PATH)/nul mkdir $(INCLUDE_PATH)
+	-@if not exist $(LIBRARY_PATH)/nul mkdir $(LIBRARY_PATH)
+	-$(INSTALL) libmxp.h $(INCLUDE_PATH)
+	-$(INSTALL) $(STATICLIB) $(LIBRARY_PATH)
+	-$(INSTALL) $(IMPLIB) $(LIBRARY_PATH)
+
+uninstall:
+	-$(RM) $(INCLUDE_PATH)/libmxp.h
+	-$(RM) $(LIBRARY_PATH)/$(STATICLIB)
+	-$(RM) $(LIBRARY_PATH)/$(IMPLIB)
+
+clean:
+	-$(RM) $(STATICLIB)
+	-$(RM) $(SHAREDLIB)
+	-$(RM) $(IMPLIB)
+	-$(RM) *.o
+
+celementmanager.o: libmxp.h
+centitymanager.o: libmxp.h
+cmxpcolors.o: libmxp.h
+cmxpparser.o: libmxp.h
+cmxpprocessor.o: libmxp.h
+cresulthandler.o: libmxp.h
+libmxp.o: libmxp.h
+stringops.o: libmxp.h

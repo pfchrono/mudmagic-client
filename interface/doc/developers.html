@@ -1,0 +1,197 @@
+<HTML><!-- (c) jSh:Services -->
+<HEAD><TITLE>Developers</TITLE>
+<LINK REL=StyleSheet TYPE="text/css" HREF="treeview.css">
+<META NAME="robots" CONTENT="index,follow">
+
+<SCRIPT LANGUAGE="JavaScript"><!--
+function myError(msg, url, line) { redirect(); return true; }
+window.onerror = myError;
+window.defaultStatus = "JavaScript TreeView documentation";
+function redirect() { if (window.stop) window.stop();
+ var newPage = "index.htm#href=index.html"+ location.hash;
+ if (document.images) top.location.replace(newPage);
+ else top.location.href = newPage;
+} if (""+window.innerWidth != "0") // NS4:not printing
+if ((top.name == "JS_TreeView_docu" && top.frames.length == 0)
+ || (top.name != "JS_TreeView_docu")) {
+ text = "\nThis page normally belongs inside a navigation frame.\n\n";
+ if (confirm(text +"Is it OK to reload the page as designed ?"))
+  redirect(); }
+if (top.index && top.index.loaded && top.index.viewKey != '0')
+ top.index.index('+0'); // --></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.2"><!--
+ENUM = new Array(); doneENUM = false;
+isNS = false; if (document.layers) isNS = true;
+if (isNS || (document.all && document.all.item))
+ setInterval("watchPageMarker();", 250);
+function getENUM() { if (doneENUM) return; tmpENUM = new Array();
+ if (isNS) tmpENUM = document.layers;
+ else tmpENUM = document.all.tags("LAYER");
+ if (tmpENUM.length > ENUM.length) ENUM = tmpENUM; else doneENUM = true; }
+function watchPageMarker() { if (top.index && top.index.index) { EY = 0;
+if (document.layers) { PY = window.pageYOffset; IH = window.innerHeight;
+ if (document.layers.EOP) EY = document.layers.EOP.pageY; }
+else { PY = document.body.scrollTop; IH = document.body.clientHeight;
+ if (document.all.item("EOP")) EY = document.all.item("EOP").offsetTop; }
+getENUM(); currY = PY+(IH/3); if (EY-IH-75 < PY) currY = EY; currSec = "";
+for (i = 0; i < ENUM.length; i++) {
+ if ((SN = ""+ (isNS ? ENUM[i].name : ENUM[i].id)).indexOf("section") > -1)
+  if ((SY = (isNS ? ENUM[i].pageY : ENUM[i].offsetTop)) < currY) {
+   currSec = SN; if (SY > PY - 50) break; }} currKey = currSec.substr(8);
+if ((currKey != "") && (top.index.viewKey != currKey))
+ top.index.index("+"+ currKey); }} // --></SCRIPT>
+<script type="text/javascript" src="lightbox.js"></script>
+<link rel="stylesheet" href="lightbox.css" type="text/css" media="screen" />
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#CC0000" VLINK="#990066" ALINK="#CC0000"
+ ONLOAD="window.onerror=myError; if (top.index && top.index.loaded && top.index.viewKey != '0') top.index.index('+0');initLightbox();">
+
+<LAYER ID="section_0"></LAYER>
+<A NAME="*" CLASS="an"><font size="1">&#160;</font></A>
+
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<P>
+<B><h3><a name="a">About Developing</a></h3></B>
+The MudMagic Client is OpenSource and distributed under the GNU License ( see About ). Gamers from around the world 
+have put thousands of hours into the development of this free software, and we are always looking for ways to improve 
+on this client.
+<p>
+Sites of interest:<br>
+  <a href='http://cvs.mudmagic.com/mudmagic_client/' target='_new'>'http://cvs.mudmagic.com/mudmagic_client</a>   ( web 
+based cvs viewer )<br>
+  <a href='http://sourceforge.net/projects/kyndig' target='_new'>'http://sourceforge.net/projects/kyndig</a>     ( 
+sourceforge project page )<br>
+  <a href='http://www.mudmagic.com/mud-client/' target='_new'>http://www.mudmagic.com/mud-client/</a>        ( official 
+homepage )
+<p>
+MudMagic provides remote anonymous CVS access to the source code for patch creation.
+
+<P>
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+<p>
+
+<B><h3><a name="b">Debugging</a></h3></B>
+If you're interested in debugging any coredumps due to client crash. The following details will assist you.
+<ul>
+	<li>  In order to catch a coredump, the mudmagic client should be run with debugging enabled, or if on
+	   Fedora/RedHat, with the mudmagic-debuginfo rpm package installed.</li>
+
+	<li>  To run the mudmagic client from command line, simply open a terminal and input:  mudmagic
+	   - note the 'mudmagic' command is a script which loads the needed libs at runtime, you cannot
+	     debug 'mudmagic' binary itself [ cat /usr/local/bin/mudmagic ]</li>
+
+	<li>  Once a core is dumped, you can run gdb against it with:
+		gdb /usr/bin/mudmagic-bin coredump
+		- replace the path to mudmagic-bin as appropriate, and the 'coredump' with the name of your coredump
+	</li>
+	<li>  For those that arn't using a mudmagic-debuginfo package, in order to compile the client with
+	   the needed debugging catches, use: ./configure --enable-debug   switch when compiling the client</li>
+</ul>
+
+<P>
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+<p>
+
+<B><h3><a name="c">CVS Access</a></h3></B>
+You can use the MudMagic CVS repository as an anonymous user, or as a developer.
+<p>
+You will need a CVS client, if you don't already have one. CVS should be installed with most modern Linux 
+distributions, easily available on *BSD systems, and there are clients for Win32, MacOS, and GUI clients for the 
+Unices. A number of them are available at http://www.cvshome.org/.
+<p>
+These command lines should be the bare-bones needed to get you started with MudMagic client and CVS; this is not a CVS 
+tutorial, however. The standard CVS documentation is available at ( 
+http://www.csc.calpoly.edu/~dbutler/tutorials/winter96/cvs/ ) , and there are many HOWTOs available on the web. <br>
+<ul><b>Anonymous CVS</b></ul>
+<p>
+Anonymous CVS access is available using pserver. To log in to the server, use the following commands:
+
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+sh, ksh, bash, zsh:
+
+<strong>    export CVSROOT=:pserver:anonymous@mudmagic.com:/cvs/mudmagic</strong>
+
+csh, tcsh:
+
+<strong>    setenv CVSROOT :pserver:anonymous@mudmagic.com:/cvs/mudmagic</strong>
+</font></pre></td></tr></table>
+<p>
+then for all:
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+    cvs login
+     (password: 'mudmagic')
+</font></pre></td></tr></table><br>
+
+In order to reduce the load on our anonymous CVS server, and to promote fairness amongst users who retrieve our source 
+code via anonymous CVS, each client host is limited to a maximum of four connections a minute. The server supports a 
+maximum of eight anonymous CVS connections simultaneously.
+Developer CVS
+<p>
+Write access to the live CVS tree is available for dedicated and contracted developers. contact MudMagic if you require 
+direct developer commit access. For most developers however, posting your Patch is suffice.
+<p>
+<ul><strong>Checking code out</strong></ul>
+<p>
+Once you have performed the steps above, and you are sure the CVSROOT environment variable is set correctly, you can 
+check out a module from CVS with this command:<br>
+<strong>cvs co [ -r <TAG> ] mudmagic_client</strong>
+<p>
+This will create a mudmagic_client directory in your current directory. It may take a bit of time, especially if your 
+network connection is slow or the module is an espeicially large one. But once it is done, you will have an up to date 
+copy of the master CVS source for that module. You can then at any time cd into this directory and type:
+<br><strong>cvs update -Pd</strong>
+<p>
+to update your source tree to be in sync with the master tree. (The -P means to prune empty directories, and -d makes 
+sure that you get new directories which have been added to the repository since your last update/checkout).
+<p>
+
+<ul><strong>How to Create a patch.</strong></ul>
+<p>
+There are two ways to do a patch. You could make a copy of file you edit beforehand, and create a patch with:
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+	diff -u file.c.orig file.c > file.c.patch
+	or do it with CVS:
+	cvs diff -u file.c > file.c.patch
+</font></pre></td></tr></table>
+<br>
+For more details and discussion on the development of this client. Visit the official mud client website developers 
+forums.
+
+<P>
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+<p>
+<B><h3><a name="d">Compiling</a></h3></B>
+For compiling on Linux:<br>
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+	<PRE><FONT SIZE="-1">
+	./reconf
+	./configure --enable-debug
+	make
+	make install
+</font></pre></td></tr></table>
+<p>
+For Windows, please see the <a href='wincompile.txt'>wincompile.txt</a> file
+<p>
+For Macintosh, please see the <a href='macintosh.txt'>macintosh.txt</a> file
+
+<p>
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<FONT SIZE="1"><BR><I>Copyright &#160;&#169;
+ 2004-02-26 &#160;<A HREF="mudmagic.html">MudMagic.Com</A></I></FONT>
+<LAYER ID="EOP"></LAYER>
+</BODY></HTML>

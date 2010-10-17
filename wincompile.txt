@@ -1,0 +1,222 @@
+How to compile the MudMagic source code on windows platform:
+This is using the MinGW build platform and latest GTK+
+libraries.
+===========================================================
+
+PHASE 1 - prepare the environment
+
+    1. Install MinGW
+	  install MinGW using the MinGW wizard from:
+           http://prdownloads.sourceforge.net/mingw/MinGW-5.0.2.exe?download
+         When running the install:
+            -select download as needed and install [NEXT]
+            -select current [NEXT]
+            -select 'MinGW base tools' and 'MinGW Make'  [NEXT]
+            -install in: C:\MinGW
+
+	  install MinGW MSYS frontend
+           http://prdownloads.sourceforge.net/mingw/MSYS-1.0.10.exe?download
+	   When running the install:
+             -when you get to the destination directory MAKE SURE TO SET IT TO
+              C:\MinGW  ( do NOT set it to anything else - it's best to just copy/paste this in)
+              You will get a warning that the directory already exists, select YES to install anyway
+             -at the end of the install, a DOS window asks you to input y or n. Hit: y
+              AND y again when it asks if you have MinGW installed. Then input: c:\MinGW when prompted
+              to input your mingw installation location
+
+         install the MinGW mysys Developers Kit for cvs,automake and other packages
+           http://prdownloads.sourceforge.net/mingw/msysDTK-1.0.1.exe?download
+	   When running the install:
+             -when you get to the destination directory MAKE SURE TO SET IT TO
+              C:\MinGW  ( do NOT set it to anything else - it's best to just copy/paste this in)
+
+      That's it. You now have MinGW set up to compile the software.
+
+    2. Prepare the GTK environment for compiling the software.
+ 
+       Download the following 2 packages.
+       http://prdownloads.sourceforge.net/gladewin32/gtk-win32-devel-2.8.18-rc1.exe?download
+       http://prdownloads.sourceforge.net/gladewin32/gtk-win32-2.8.18-rc1.exe?download
+       http://www.python.org/ftp/python/2.3.4/Python-2.3.4.exe
+       http://www.mudmagic.com/mud-client/mm-setupfiles.zip
+
+       The first file is the Developer libraries, used to compile the software. The second file
+       is the 'runtime' DLL's that will be used by the program once you compile it. For later
+       updates, always make sure you get the same runtime environment as the development environment
+       or odd things happen.
+
+       - Run the gtk-win32-devel program first. Install it in: 
+         C:\GTK
+
+       - Run the gtk-win32 program next. Install it in:
+         C:\Gtk-Runtime  ( it default to c:\gtk, MAKE SURE TO CHANGE IT )
+         When it asks you for the program name, it defaults to Gtk+, change this to Gtk2
+
+       - Run the Python-2.3.4.exe and install it in:  C:\Python23
+
+       - Extract the mm-setupfiles.zip into: C:\Gtk-Runtime
+         ( the mm-setupfiles.zip contains gtk themes, and the current interface/ directory
+           as of this writing. Future modifications of interface/ will require the interface/
+           and doc/ directories to be updated appropriately )
+
+    3. Compiling the Program
+
+       - Close or minimise all windows. At this time, you can clean up the extra files that this process
+         has installed on your desktop. All the tar.gz files, the install files, and the mingw file with a
+         socket on it can be safely removed. Do NOT REMOVE the MSYS blue icon. =)
+ 
+       - On your desktop, click on the MSYS icon. A bash shell
+         will appear.
+
+	 - Retrieve the MudMagic Client through CVS using the bash shell of your MSYS
+           TYPE IN THE FOLLOWING IN BASH SHELL:
+         #set up the bash compile environment
+export PATH=$PATH:/c/GTK/bin
+export PKG_CONFIG_PATH=/c/GTK/lib/pkgconfig
+export PKG_CONFIG=/c/GTK/bin/pkg-config.exe
+export GTK_BASEPATH=/c/GTK/share/aclocal
+export PYTHON_LIBS=/c/Python23/libs
+export PYTHON_CFLAGS=-I/c/Python23/include
+export PATH=$PATH:/c/GTK/bin:/c/Python23
+
+export CVSROOT=:pserver:anonymous@mudmagic.com:/cvs/mudmagic
+cvs login
+cvs co mudmagic_client
+
+      - You need the sqlite3.dll from the file you just extracted in C:\Gtk-Runtime . 
+        * go to: Start -> MyComputer -> C -> Gtk-Runtime directory. COPY sqlite3.dll
+        * go to: C -> MinGW -> home -> YourLogin -> mudmagic_client -> bundled -> sqlite3
+          and PASTE the file you copied into that directory ( overwrite the old one )
+
+      - Go back into your MSYS bash shell
+cd mudmagic_client/src
+
+mingw32-make -f Makefile.win
+         
+      - Thats it! It should have compiled fine. If not, make sure you followed everything above.
+
+   4. Finish setting up the Gtk-Runtime Directory and test the client
+      - After compiling, you'll need to move the src/mudmagic.exe file to your C:\Gtk-Runtime folder
+        * Start -> My Computer -> C -> MinGW -> home -> Your Login -> mudmagic_client -> src
+          right-click and COPY the mudmagic icon
+        * browse to: C -> Gtk-Runtime
+          PASTE the mudmagic.exe file you just copied
+      - Go into: C -> Gtk-Runtime -> bin folder and SELECT ALL. Then CUT. Then browse up one folder to Gtk-Runtime
+        Paste all the files you just cut from bin/ directory into the Gtk-Runtime folder.
+
+      - You should now have everything you need to simply click on the mudmagic icon and the client will start
+
+   5. If you make changes to the code after all this. The only steps you need to perform AFTER you recompile
+      your code changes are the take the mudmagic.exe file and place it in Gtk-Runtime directory.
+
+-------------STOP--------------------------------------------------------------------
+OLDER UNUSED INSTRUCTIONS FOR DEV-CPP
+
+    * step 1 - DEV-CPP
+        - URL: http://www.bloodshed.net/dev/devcpp.html
+        - install it in c:\devcpp
+        - add $DEVCPP_PATH/bin in PATH  (in my case
+          PATH=c:\devcpp\bin;%PATH%a   )
+
+    * step 2 - PYTHON
+        - URL: http://www.python.org/ftp/python/2.3.4/Python-2.3.4.exe
+        - install it  c:\python
+
+    * step 3 - GTK+ development environment
+	       This step sets up the environment for compiling the mud client in DOS. The next step (step 4)
+	       sets up the environment for creating the installer program to install the mudmagic client. (don't
+	       confuse these two steps and their purposes =)
+
+	       *Download the following files. Extract all these files to: c:\GTK . This will be the header library
+		used to compiled the mud client.
+
+		-URL: ftp://ftp.gtk.org/pub/gtk/v2.8/win32/gtk+-dev-2.8.6.zip
+		-URL: ftp://ftp.gtk.org/pub/gtk/v2.8/win32/pango-dev-1.10.1.zip
+	        -URL: ftp://ftp.gtk.org/pub/gtk/v2.8/win32/glib-dev-2.8.3.zip
+		-URL: ftp://ftp.gtk.org/pub/gtk/v2.8/win32/cairo-dev-1.0.2.zip
+		-URL: ftp://ftp.gtk.org/pub/gtk/v2.8/win32/atk-dev-1.10.3.zip
+		-URL: http://prdownloads.sourceforge.net/gladewin32/libglade-2.4.0-dev.zip
+		-URL: http://www.gimp.org/~tml/gimp/win32/gettext-dev-0.14.5.zip
+
+	       *Bundled packages - The following packages contain both developmental headers for step 3, and
+		precompiled libs for step 4. In this part, just extract the contents in a seperate folder and copy/paste
+ 		everything to your c:\GTK folder. (leave extracted folder for portions of step 4 if needed)
+		
+		libiconv:
+			http://www.gimp.org/~tml/gimp/win32/libiconv-1.9.1.bin.woe32.zip
+		
+   *  step 4 - Prepare the gtk-runtime-installer. This uses GAIM's and GIMP's aproach at handling
+	       registry usage on 98, 2k, xp, and NT platforms. Neither of these distro's are currently
+	       using a 2.8.6 version though - so this installer was created. Normally I just use GAIM's
+               gtk-runtime.exe installer they distro with their program.
+
+	       NOTE: This is put here for development education purposes. Only the person responsible for
+		     the initial release of the mud client (Kyndig) has to perform these steps. All other
+		     users can download the completed gtk-runtime.exe file, along with the current NSI
+		     system for creating the 'setup' process of the mud client from the CVS client_installer
+		     located at cvs.mudmagic.com . Only use this step if you require an updated gtk+ version.
+
+	
+		
+       		* Retrieve gaim's gtk_installer and extract it to c:\ (as of this writing, 2.6.9 was the
+		 latest gaim gtk-installer ..we need one for version 2.8.6, so well use this one as a template )
+		
+		-URL: http://prdownloads.sourceforge.net/gaim/gtk-2.6.9-rev-a-installer.tar.gz
+			*GO INTO gtk_installer/gtk_install_files and DELETE EVERYTHING (select all-delete)
+
+		* go into the libiconv folder you left from step-3 and copy the bin/ to the gtk_installer/gtk_install_files
+ 		  directory
+
+	       * Retrieve the following libs and extract them all under the previous gtk_installer/gtk_install_files
+		 rather than recompiling all this above. Download the appropriate dll files that correspond
+	 	 to the above versions and drop them into the directory whose content we just deleted. This runtime
+		 also includes glade dll since we need it for the mud client. (DO NOT USE gladewin32 site! it does
+		 not follow the gaim/gimp registry and will break those installs as well as the mudmagic install)
+
+		-URL: ftp://ftp.gtk.org/pub/gtk/v2.8/win32/gtk+-2.8.6.zip
+		-URL: ftp://ftp.gtk.org/pub/gtk/v2.8/win32/pango-1.10.1.zip
+		-URL: ftp://ftp.gtk.org/pub/gtk/v2.8/win32/glib-2.8.3.zip
+		-URL: ftp://ftp.gtk.org/pub/gtk/v2.8/win32/atk-1.10.3.zip
+		-URL: ftp://ftp.gtk.org/pub/gtk/v2.8/win32/cairo-1.0.2.zip
+		-URL: http://prdownloads.sourceforge.net/gladewin32/libglade-2.4.0-bin.zip
+		-URL: http://www.gimp.org/~tml/gimp/win32/gettext-0.14.5.zip
+
+	      * The following files are not required to compile the mud client, but the dll's are required to operate
+		certain things in GTK. download and copy these dll's to the gtk_install_files/bin directory:
+		-URL: http://prdownloads.sourceforge.net/gnuwin32/libpng-1.2.8-bin.zip?download
+
+	      * The following files are not distributed by default with gaim or gimp, and are not need to compile the
+		mud client, but _are_ needed for certain functionality of the client. These files should be placed in
+		the mud clients: windows-installer/installs file as their extracted dll parts:
+		-URL: http://www.zlib.net/zlib123-dll.zip
+
+		
+		* Edit gtk-installer.nsi script. Near the top add:
+			;Configuration
+			!define GTK_VERSION "2.8.6"
+			!define GTK_REVISION "a"
+
+		* Drag-n-Drop the gtk-installer.nsi file to your NSIS Compiler window to create gtk-runtime.exe installer.
+		* Move this executable to the mudmagic contrib/windows-installer/gtk_installer  directory
+		* gaim & gimp don't use glade, so just to be safe for future updates, copy the libglade-2.0.0.dll file
+		  to mudmagics gtk_install directory (the nsi script is already setup to install it)
+
+PHASE 2 - build 
+		- untar mudmagic-1.7.tar.gz
+		- go into each one of the mudmagic-1.7/bundled directories and
+		  compile the DLL if you wish to. You can use the pre-compiled
+		  DLL's though that come with the client. Read the win32/Makefile.win
+		  in the appropriate bundled library to compile the dll
+		- cd in mudmagic-1.7/src/main
+		- edit mudmagic-1.7/src/main/Makefile.win to point to your: python/ devextra/ and devcpp/ directories
+		- make -f Makefile.win
+		- copy the mudmagic.exe in mudmagic-1.7/contrib/windows-installer/installs directory
+				
+PHASE 3 - build the new setup program
+		- cd in mudmagic-1.7/contrib/windows-installer
+		- run mudmagic.nsi script to produce a new Setup1.7.exe file
+
+~                            
+script to produce a new mudmagic-1.7.exe file
+
+~                            

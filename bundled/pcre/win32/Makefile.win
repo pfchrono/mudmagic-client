@@ -1,0 +1,75 @@
+# must run the following by hand after compile
+# dllwrap --dllname pcre.dll --def win32/pcre.def *.o
+# to produce the zlib1.dll
+
+STATICLIB = lipcre.a
+SHAREDLIB = pcre.dll
+IMPLIB    = libpcre.a
+
+#LOC = -DASMV
+#LOC = -DDEBUG -g
+
+CC = gcc
+CFLAGS = $(LOC) -O3 -Wall
+
+AS = $(CC)
+ASFLAGS = $(LOC) -Wall
+
+LD = $(CC)
+LDFLAGS = $(LOC) -s
+
+AR = ar
+ARFLAGS = rcs
+
+RC = windres
+RCFLAGS = --define GCC_WINDRES
+
+CP = cp -fp
+# If GNU install is available, replace $(CP) with install.
+INSTALL = $(CP)
+RM = rm -f
+
+prefix = /usr/local
+exec_prefix = $(prefix)
+
+OBJS = chartables.o pcre.o get.o
+
+OBJA =
+
+all: $(STATICLIB) $(dll)
+
+.c.o:
+	$(CC) $(CFLAGS) -c -o $@ $<
+	
+.S.o:
+	$(AS) $(ASFLAGS) -c -o $@ $<
+
+$(STATICLIB): $(OBJS) $(OBJA)
+	$(AR) $(ARFLAGS) $@ $(OBJS) $(OBJA)
+
+# INCLUDE_PATH and LIBRARY_PATH must be set.
+
+.PHONY: install uninstall clean
+
+install: zlib.h zconf.h $(LIB)
+	-@if not exist $(INCLUDE_PATH)/nul mkdir $(INCLUDE_PATH)
+	-@if not exist $(LIBRARY_PATH)/nul mkdir $(LIBRARY_PATH)
+	-$(INSTALL) zlib.h $(INCLUDE_PATH)
+	-$(INSTALL) zconf.h $(INCLUDE_PATH)
+	-$(INSTALL) $(STATICLIB) $(LIBRARY_PATH)
+	-$(INSTALL) $(IMPLIB) $(LIBRARY_PATH)
+
+uninstall:
+	-$(RM) $(INCLUDE_PATH)/zlib.h
+	-$(RM) $(INCLUDE_PATH)/zconf.h
+	-$(RM) $(LIBRARY_PATH)/$(STATICLIB)
+	-$(RM) $(LIBRARY_PATH)/$(IMPLIB)
+
+clean:
+	-$(RM) $(STATICLIB)
+	-$(RM) $(SHAREDLIB)
+	-$(RM) $(IMPLIB)
+	-$(RM) *.o
+
+chartables.o:  pcre.h
+pcre.o: pcre.h

@@ -1,0 +1,88 @@
+2.0 version plan:
+	internal:
+	---------
+		* change global configuration structure to API for configuration data access.
+		* break session structure into functional pieces such as data I/O, filesystem and interface related
+		* take all synchronous network connection functions outside of main event loop
+		* encapsulate network I/O data structures. Create server I/O internal API
+		* provide national encoding selection support
+		* create generic scripting language support module. Create abstract layer for adding sripting language support on modular base.
+		* provide scripting API functions: sound, color, etc.
+		* adding optional modules set for commonly used scripting languages: Basic, Python, Scheme, Lua etc.
+
+	interface:
+	----------
+		* adding multilevel generic shortcuts for macros launching
+		* adding parameter request support from macros
+		? optional voice engine support
+			- for pronouncing all/particular game events
+			- for game control
+		* install GnuCash (flash) support for future protocol development and featured game image
+		* allow the changing of specific colors.
+ 			*this feature should support such entries as:
+         			-Make colors BRIGHTER, make colors DIMMER
+         			-Change all occurence of RED to BLUE.
+		* Move "Status Variables", and "Gauges" to a: PROTOCOL notebook menu
+			- Status Variables & Guages should be under: MXP
+			- Add MSP for sound specific settings
+				* let user select a directory to store sounds
+		* chat modules for mudmagic.com server-wide chatting
+		* rewrite automapper ( zmapper clone )
+		* HTML output support for tags [ new protocol ]
+
+	usability:
+	----------
+		* adding startup and shutdown type actions executed when entering and leaving the game
+		* add ability to set the scrollback buffer. Destroy all stored content prior to that setting to
+		  save on memory.
+		* scripting functionality:
+			* $GAG
+			* $SEND_TO_TAB
+				- SEND_TO_TAB( "TabName", "This was caught: $1" );
+				  This will allow users to create a trigger, and have all data
+				  for that trigger output into a new tab. If the tabname does not
+				  exist, create one. If one exists, append output to the tab.
+				  A user would create a trigger such as:
+ 				  ----------------
+ 				 Trigger title: Chat Output
+ 				 Trigger:       (.*?) chats '(.*?)'
+
+ 				 Script:
+    				 IF( $1 == "Kyndig" )
+         				SEND_TO_TAB("Personal Chat", "[Kyndig said] $2");
+    				 ELSE
+         				SEND_TO_TAB("Game Chat", "[ $1 chatted ] $2" );
+    				 ENDIF
+
+			* $FETCH_OUTPUT
+				- Usage: FETCH_OUTPUT("who all", [true/false] )
+ 				  This will silently send the command within the " " to the client
+ 				  and retrieve the returned output. The [true/false] is an optional
+ 				  TRUE or FALSE value on wether the output should be displayed in
+ 				  the current tabbed window. Default should be FALSE. The retrieved
+ 				  output should fill a variable to be used within the script.
+
+ 				  Example of usage:
+     				  Trigger title: Whose On
+     				  Trigger:       has entered the game
+     				  Script:
+         				WHO = FETCH_OUTPUT("who all");
+          				SEND_TO_TAB("Whose On", "$who" );
+			* $WAIT
+			* $CALL_ALIAS
+			* $CALL_TRIGGER
+			* $PLAY_WAV
+			* $PLAY_MIDI
+			* $PLAY_MP3
+
+  Bugs:
+  -----------
+  * "macros_toolbar" does not have an expanding arrow when there are too many macro buttons to
+     fit on the screen. This is due to Gtk 2.6+ new usage of GtkToolBar, GtkToolItem. Either
+     port it to g_object usage, or GtkToolbar
+
+  * In Global Configuration, when you select to turn off autocompletion, it requires you to close
+    the client and reopen before the change takes effect
+
+  * MESSAGEBOX from MudMagic Basic / Python interface causes output from the client to stop.
+

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=MudMagic
+Comment=MudMagic Online Text Game Client
+Exec=mudmagic
+Icon=mudmagic.png
+Terminal=false
+Type=Application
+Categories=Application;Network;X-Red-Hat-Base;
+StartupNotify=true

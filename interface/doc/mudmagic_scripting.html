@@ -1,0 +1,272 @@
+<HTML><!-- (c) jSh:Services -->
+<HEAD><TITLE>Scripting</TITLE>
+<LINK REL=StyleSheet TYPE="text/css" HREF="treeview.css">
+<META NAME="robots" CONTENT="index,follow">
+
+<SCRIPT LANGUAGE="JavaScript"><!--
+function myError(msg, url, line) { redirect(); return true; }
+window.onerror = myError;
+window.defaultStatus = "JavaScript TreeView documentation";
+function redirect() { if (window.stop) window.stop();
+ var newPage = "index.htm#href=index.html"+ location.hash;
+ if (document.images) top.location.replace(newPage);
+ else top.location.href = newPage;
+} if (""+window.innerWidth != "0") // NS4:not printing
+if ((top.name == "JS_TreeView_docu" && top.frames.length == 0)
+ || (top.name != "JS_TreeView_docu")) {
+ text = "\nThis page normally belongs inside a navigation frame.\n\n";
+ if (confirm(text +"Is it OK to reload the page as designed ?"))
+  redirect(); }
+if (top.index && top.index.loaded && top.index.viewKey != '0')
+ top.index.index('+0'); // --></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.2"><!--
+ENUM = new Array(); doneENUM = false;
+isNS = false; if (document.layers) isNS = true;
+if (isNS || (document.all && document.all.item))
+ setInterval("watchPageMarker();", 250);
+function getENUM() { if (doneENUM) return; tmpENUM = new Array();
+ if (isNS) tmpENUM = document.layers;
+ else tmpENUM = document.all.tags("LAYER");
+ if (tmpENUM.length > ENUM.length) ENUM = tmpENUM; else doneENUM = true; }
+function watchPageMarker() { if (top.index && top.index.index) { EY = 0;
+if (document.layers) { PY = window.pageYOffset; IH = window.innerHeight;
+ if (document.layers.EOP) EY = document.layers.EOP.pageY; }
+else { PY = document.body.scrollTop; IH = document.body.clientHeight;
+ if (document.all.item("EOP")) EY = document.all.item("EOP").offsetTop; }
+getENUM(); currY = PY+(IH/3); if (EY-IH-75 < PY) currY = EY; currSec = "";
+for (i = 0; i < ENUM.length; i++) {
+ if ((SN = ""+ (isNS ? ENUM[i].name : ENUM[i].id)).indexOf("section") > -1)
+  if ((SY = (isNS ? ENUM[i].pageY : ENUM[i].offsetTop)) < currY) {
+   currSec = SN; if (SY > PY - 50) break; }} currKey = currSec.substr(8);
+if ((currKey != "") && (top.index.viewKey != currKey))
+ top.index.index("+"+ currKey); }} // --></SCRIPT>
+<script type="text/javascript" src="lightbox.js"></script>
+<link rel="stylesheet" href="lightbox.css" type="text/css" media="screen" />
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#CC0000" VLINK="#990066" ALINK="#CC0000"
+ ONLOAD="window.onerror=myError; if (top.index && top.index.loaded && top.index.viewKey != '0') top.index.index('+0');initLightbox();">
+
+
+<A NAME="fa" CLASS="an"></A>
+<h3><B>MudMagic BASIC Scripting</b></h3>
+When you create a Trigger or Alias, you can select some scripting language support. This document describes the usage 
+of the MudMagic BASIC scripting engine.
+<p>
+MudMagic BASIC scripting follows the normal BASIC style, that is:
+<p>
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+IF ... THEN
+ELSE
+  ....
+END
+</font></pre></td></tr></table>
+<p>
+
+For Example:
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+IF $1 = "Somevalue" THEN
+    print "say You said $1"
+ELSE
+    print "say You said something else"
+END
+</font></td></tr></table>
+<p>
+
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<b><h3>Basic commands available</h3></b>
+There are certain commands available in the scripting engine. Below is an index outline.
+<p>
+
+<ul><strong>Expressions</strong></ul>
+An expression is something that applies two values togeather. To check is value FOO is equal to value BAR, you'd use 
+FOO = BAR
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+	For numerical operands: + - / * = < > <= => <>
+	For string operands: + = <>
+</font></pre></td></tr></table>
+<p>
+<ul><strong>Commands</strong></ul>
+All lines within a script are considered to be a command entry to the scripting engine. Blank lines are ignored. 
+
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+		REM commentary, this is ignored - so you can put notes to yourself here
+		
+		PRINT strings, expression
+		SEND  strings, expression (print and send are identical)
+			if two tokens separated by ',' - space will be insert
+			if two tokens separated by ';' - tab will be insert
+			if two tokens seperated by '.' - no spacing occurs
+			if PRINT ended by ',' or ';', "new line symbol" will not be inserted after last token
+			into strings in PRINT command external variables may be appears
+	
+			examples:
+			print "this","is","a","test";
+			outputs: This is a test
+
+			print "this";"is";"a";"test";
+			outputs: This	is	a	test
+
+			print "This"."is"."a"."test";
+			outputs:  Thisisatest
+
+		IF condition THEN
+		 ...
+		ELSE
+		 ...
+		END
+</font></pre></td></tr></table>
+<p>
+	
+<ul><strong>External variables</strong></ul>
+An external variables are read in with the $ symbol. You can pass external variables to your script with regular 
+expression.<p>
+<strong>		Name starts by '$'.</strong><br>
+For example. To capture 2 variables in the statement:  test one two. You could write a regular expression such as:
+<br>
+<b>
+^test (.*) (.*)</b>
+<p>
+This will match any sentence you input in the command line that starts with the word test, and catches the first two 
+words after test. You can then use:
+<p>
+
+FIRST_WORD = $1<br>
+SECOND_WORD = $2<br>
+in your script.
+<p>
+<ul><strong>External functions</strong></ul>
+External functions are special MudMagic functions which interact with the client. There is currently only 1 MudMagic 
+external function to date.
+<br>
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+		Name starts by '$'.
+		
+		$MESSAGEBOX "Message to output"
+</font></pre></td></tr></table>
+<p>
+
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+<b><h3>BASIC script flow</h3></b>
+----------------------------------
+There are numerous methods of writing your scripts. You can use multiple IF .. THEN .. ELSE statements, or you could 
+end each IF check in order. Trial and error will be your guide. For example:
+<p>
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+NUMBER_ONE = 10
+NUMBER_TWO = 20
+
+IF NUMBER_ONE > 5 THEN
+	PRINT "Number one " NUMBER_ONE;
+ELSE
+	IF NUMBER_TWO < 100
+		print "Number two is less than 100"
+	ELSE
+		print "Number two is " NUMBER_TWO
+	END
+END
+</font></pre></td></tr></table><br>
+
+The important thing to remember is to close your checks in sequential order. If not, you will receive syntax errors 
+when your script executes.
+<p>
+
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<b><h3>Variable usage and creation</h3></b>
+Variables in the client are assigned locally and through regular expression. A variable can be either a string value, 
+or numerical value; and are treated accordingly. If a variable contains only digits - it is considered a numerical 
+variable and can process mathmatical equations. Please review the examples below for the scope of variable usage.
+<p>
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<b><h3>BASIC Examples</h3></b>
+You can test the following scripts out with the <strong>Tools -> Script Testing</strong> window. For more
+details on this window, see the Scripting, Testing link in the left frame.
+<p>
+<b>1.</b>
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+N1 = 25
+N2 = 35
+NUMB = ((N1 + N2) * 5) / 25
+PRINT NUMB;
+PRINT "Hello"; ","; "World";
+PRINT "The number is -"; NUMB;
+PRINT NUMB; "- is the number"; 700;
+</font></pre></td></tr></table>
+<p>
+
+<b>2.</b>
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+N1 = 45
+N2 = 35
+
+IF N1 < N2 THEN
+	PRINT "THEN 1 PART"
+	PRINT "N1 ="; N1
+ELSE
+	PRINT "ELSE 1 PART"	
+	PRINT "N2 ="; N2
+END
+
+PRINT "AFTER IF"
+PRINT "N1 ="; N1
+PRINT "N2 ="; N2
+</font></pre></td></tr></table>
+<p>
+
+<b>3.</b> This takes an external pcre caught command. Example:
+Alias: ^test (.*)
+<br>
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+PRINT ": EXT $1"
+rem $MESSAGEBOX0
+rem $MESSAGEBOX1 "Test"
+rem $MESSAGEBOX2 "First arg","Second arg"
+</font></pre></td></tr></table>
+<p>
+
+<b>4.</b>
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+IF $1 = "Kyndig"
+THEN
+  print "yup, was kyndig"
+ELSE
+ print "nope, wasn't kyndig"
+END
+</font></pre></td></tr></table>
+
+<p>
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<FONT SIZE="1"><BR><I>Copyright &#160;&#169;
+ 2004-02-26 &#160;<A HREF="mudmagic.html">MudMagic.Com</A></I></FONT>
+<LAYER ID="EOP"></LAYER>
+</BODY></HTML>
+

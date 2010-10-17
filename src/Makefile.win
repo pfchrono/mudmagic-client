@@ -1,0 +1,137 @@
+# the Makefile for windows
+# The client now packages the needed libs
+# for window compiling of DLL, with the exception
+# of Python and libglade. 
+# set some dependencies settings
+DEVCPP_PATH=/c/MinGW
+PYTHON_PATH=/c/Python23
+GTK_PATH=/c/GTK
+#BUNDLE_PATH=/c/MinGW/home/kyndig/mudmagic_client/bundled
+BUNDLE_PATH=/c/MinGW/$(HOME)/mudmagic_client/bundled
+
+CC = gcc
+CFLAGS = -Wall -DHAVE_WINDOWS -mno-cygwin -mms-bitfields -DGTK_GREATER_THAN -g
+srcdir = .
+
+BIN = mudmagic.exe
+RC = main/mudmagic.rc
+RES = $(RC:.rc=.res)
+
+LIB_INCLUDE =	-I..			\
+		-I$(srcdir)/main	\
+		-I$(srcdir)/configuration \
+		-I$(srcdir)/network	\
+		-I$(srcdir)/utils	\
+		-I$(srcdir)/interface	\
+		-I$(srcdir)/protocols	\
+		-I$(srcdir)/module	\
+		-I$(srcdir)/log		\
+		-I$(srcdir)/modules	\
+		-I$(srcdir)/script	\
+		-I$(srcdir)/website
+
+SRC = \
+      		network/proxy.c		\
+		log/debug.c		\
+		utils/muderr.c		\
+		utils/gamelist.c	\
+		utils/alias_triggers.c \
+		utils/strings.c	\
+		utils/utils.c		\
+		utils/variables.c	\
+		utils/mudaccel.c	\
+		utils/directories.c \
+		utils/gauges.c \
+		utils/owindows.c \
+		utils/statusvars.c \
+		configuration/configuration.c \
+		interface/data.c	\
+		interface/cmdentry.c	\
+		interface/interface.c	\
+		interface/internal.c	\
+		interface/modules.c	\
+		interface/sessions.c	\
+		interface/settings.c	\
+		interface/theme_select.c \
+		interface/tools.c \
+		log/log.c 		\
+		network/network.c	\
+		module/module.c		\
+		script/script.c		\
+		script/iscript.c	\
+		website/website.c	\
+		protocols/http.c	\
+		protocols/telnet.c	\
+		protocols/msp.c		\
+		protocols/mxp.c		\
+		protocols/zmp-core.c	\
+		protocols/zmp-manage.c	\
+		modules/automapper.c	\
+		modules/recorder.c	\
+		modules/database.c	\
+		modules/notes.c		\
+		main/main.c
+
+LIB_OBJ = $(SRC:.c=.o)
+LIB_DEF = $(SRC:.c=.def)
+LIB_EXP = $(SRC:.c=.exp)
+
+WIN32_LIBS = -lwsock32 -lwinmm
+
+GTK_INCLUDE_PATH = $(GTK_PATH)/include
+GTK_INCLUDE = -I"$(GTK_INCLUDE_PATH)" \
+		-I"$(GTK_INCLUDE_PATH)/gtk-2.0"  -I"$(GTK_INCLUDE_PATH)/glib-2.0"  \
+		-I"$(GTK_INCLUDE_PATH)/atk-1.0" -I"$(GTK_INCLUDE_PATH)/pango-1.0"  \
+		-I"$(GTK_INCLUDE_PATH)/libglade-2.0"		\
+		-I"$(GTK_INCLUDE_PATH)/libxml2"			\
+		-I"$(GTK_INCLUDE_PATH)/cairo"		\
+		-I"$(GTK_PATH)/lib/glib-2.0/include"	\
+		-I"$(GTK_PATH)/lib/gtk-2.0/include"	\
+
+DEVCPP_INCLUDE = -I"$(DEVCPP_PATH)/include" -I"$(BUNDLE_PATH)/zlib"
+
+GTK_LIBS = -L"$(GTK_PATH)/lib" \
+		-lglade-2.0 -lgtk-win32-2.0 -lgdk-win32-2.0 \
+		-lgthread-2.0 -lgdi32 -lole32 -luuid -latk-1.0 \
+		-lgdk_pixbuf-2.0 -lpangowin32-1.0 -lgdi32 -lpango-1.0 \
+		-lgobject-2.0 -lgmodule-2.0 -lglib-2.0 -lintl -liconv \
+		-lxml2
+
+PYTHON_INCLUDE = -I"$(PYTHON_PATH)/include"
+PYTHON_LIBS    = -L"$(PYTHON_PATH)/libs" -lpython23
+
+BUNDLED_INCLUDE = -I$(BUNDLE_PATH)/pcre -I$(BUNDLE_PATH)/sqlite3 -I$(BUNDLE_PATH)/curl -I$(BUNDLE_PATH)
+BUNDLED_LIBS = -L"$(BUNDLE_PATH)/sqlite3" -lsqlite3	\
+		-L"$(BUNDLE_PATH)/pcre" -lpcre		\
+		-L"$(BUNDLE_PATH)/libmxp" -lmxp \
+		-L"$(BUNDLE_PATH)/zlib" -lzdll \
+		-L"$(BUNDLE_PATH)/curl" -lcurldll
+
+DEVCPP_LIBS = -L"$(DEVCPP_PATH)/lib"
+
+INCLUDE	= $(LIB_INCLUDE) $(DEVCPP_INCLUDE) $(GTK_INCLUDE) $(PYTHON_INCLUDE) $(BUNDLED_INCLUDE)
+LIBS	= $(DEVCPP_LIBS) $(WIN32_LIBS) $(BUNDLED_LIBS) $(GTK_LIBS) $(PYTHON_LIBS)
+
+LIB_FLAGS = --export-dynamic
+
+all: $(BIN) 
+	
+.SUFFIXES: .c .o .def .exp .rc .res
+	
+$(BIN): $(SRC) $(LIB_OBJ) $(LIB_EXP) $(RES)
+	$(CC) -o $(BIN) $(LIB_OBJ) $(LIB_EXP) $(RES) -mwindows $(LIB_FLAGS) $(LIBS)
+
+.def.exp: 
+	dlltool --dllname $(BIN) --def $<  --output-exp $@
+	
+.o.def:
+	dlltool --output-def $@ $<
+	
+.c.o:
+	$(CC) -c $(CFLAGS) $(INCLUDE) -o $@ $<
+	
+.rc.res:
+	windres.exe -i $< -I main -o $@ -O coff
+
+clean :
+	rm -f  $(BIN) $(LIB_OBJ) $(LIB_DEF) $(LIB_EXP) $(RES) 

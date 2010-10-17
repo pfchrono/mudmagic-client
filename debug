@@ -1,0 +1,6 @@
+ulimit -c 10000
+libtool --mode=execute gdb ./mudmagic
+
+To make it not create a shared static:
+AC_DISABLE_SHARED
+

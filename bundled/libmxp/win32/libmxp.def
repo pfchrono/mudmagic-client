@@ -1,0 +1,23 @@
+   LIBRARY libmxp.dll
+   EXPORTS
+	mxpDestroyHandler = mxpDestroyHandler
+	mxpProcessText = mxpProcessText
+	mxpSwitchToOpen = mxpSwitchToOpen
+	mxpSetDefaultText = mxpSetDefaultText
+	mxpSetHeaderParams = mxpSetHeaderParams
+	mxpSetDefaultGaugeColor = mxpSetDefaultGaugeColor
+	mxpSetNonProportFont = mxpSetNonProportFont
+	mxpSetClient = mxpSetClient
+	mxpSetScreenProps = mxpSetScreenProps
+	mxpSupportsLink = mxpSupportsLink
+	mxpSupportsGauge = mxpSupportsGauge
+	mxpSupportsStatus = mxpSupportsStatus
+	mxpSupportsSound = mxpSupportsSound
+	mxpSupportsFrame = mxpSupportsFrame
+	mxpSupportsImage = mxpSupportsImage
+	mxpSupportsRelocate = mxpSupportsRelocate
+	mxpCreateHandler = mxpCreateHandler
+	mxpNextResult = mxpNextResult
+	mxpHasResults = mxpHasResults
+
+	

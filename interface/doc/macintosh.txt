@@ -1,0 +1,225 @@
+My notes for building a GTK environment on MAC and compiling the
+MudMagic client. 
+
+Once the client is compiled and installed with make install:
+============================================================
+1. copy the /usr/local/bin/mudmagic_bin to MudMagic.app/Contents/Resources/bin
+2. rm -rf MudMagic.app/Contents/Resources/lib and remake the dir (mkdir Resources/lib)
+3. copy the copyover.sh from the Resources directory to blank lib directory and execute the script
+4. you should now be able to run MudMagic.app/Contents/MacOS/MudMagic
+5. mkdir ~/mudmagic
+6. mv MudMagic.app ~/mudmagic
+7. execute the mkdmg.sh script to create the DMG file
+** make sure if you are testing the MacOS/MudMagic directly, that you move your /GTK env to 
+** something like GTK-devel ( mv /GTK /GTK-devel )
+
+To compile the client with a GTK devel env located in /GTK
+============================================================
+export ACLOCAL_FLAGS="-I /usr/share/aclocal -I /GTK/share/aclocal"
+export PATH=/bin:/sbin:/usr/bin/:usr/sbin:/GTK/bin
+export PKG_CONFIG_PATH=/GTK/lib/pkgconfig
+export CPPFLAGS="-I/GTK/include"
+export LDFLAGS="-L/GTK/lib"
+export prefix=/GTK
+
+
+To BUILD a GTK environemnt for compiling the client (whew!)
+(note, files located in MudMagic.app, such as gdk.immodules, pangorc, and such
+ are based off version located in these directories. If you change versions, then
+ you will have to edit files located the the Resources/etc directory ..will detail
+ this step another day)
+============================================================
+Build the Environment needed to compile the gtk application. For this purpose
+I use /GTK as the root.
+
+gettext
+
+  ftp://ftp.gnu.org/gnu/gettext
+  ./configure --prefix=$prefix
+  make
+  make install
+
+pkg-config
+  ftp://ftp.gtk.org/pub/gtk/v2.8/dependencies/
+ 
+./configure --prefix=$prefix
+make
+make install
+
+expat
+ cvs -d:pserver:anonymous@expat.cvs.sourceforge.net:/cvsroot/expat login
+ [when prompted for password, hit enter key]
+cvs -z3 -d:pserver:anonymous@expat.cvs.sourceforge.net:/cvsroot/expat co expat
+
+./buildconf.sh
+./configure --prefix=$prefix
+make
+make install
+
+libiconv
+ http://ftp.gnu.org/pub/gnu/libiconv/
+
+./configure --prefix=$prefix
+make
+make install
+
+libpng
+  ftp://ftp.gtk.org/pub/gtk/v2.8/dependencies/
+
+  cp scripts/makefile.darwin Makefile
+  change PREFIX to be
+  PREFIX=/GTK
+
+./configure --prefix=$prefix
+make
+make install
+
+libjpeg
+  ftp://ftp.gtk.org/pub/gtk/v2.10/dependencies/jpegsrc.v6b.tar.gz
+
+cp /usr/share/libtool/config.sub .
+cp /usr/share/libtool/config.guess .
+./configure --prefix=/GTK --enable-shared --enable-static
+make
+make install
+
+freetype
+  http://download.savannah.gnu.org/releases/freetype/
+
+./configure --prefix=/GTK
+make
+make install
+
+# pkg-config --list-all 
+# using pk-config line above should output your libpng and freetype
+
+fontconfig
+  http://fontconfig.org/release/
+./configure --prefix=/GTK
+make
+make install
+
+cairo
+  ftp://ftp.gtk.org/pub/gtk/v2.10/dependencies/cairo-1.2.0.tar.gz
+
+./configure --prefix=/GTK --enable-quartz
+
+# ./configure --prefix=/GTK --disable-xlib --enable-atsui --enable-quartz
+
+gtk-doc
+
+# as of this writing, this is the patch for gtk-doc. It changes frequetly. If
+# you need a 'somewhat' up to date gtk-doc/ directory to build your gtk env for
+# MacOS X, grab a copy from:  http://www.mudmagic.com/mud-client/downloads/gtk-doc.tar.gz
+
+cvs -d :pserver:anonymous@anoncvs.gnome.org:/cvs/gnome co gtk-doc
+cd gtk-doc
+curl http://developer.imendio.com/images/8/86/Gtk-doc-hack-new.diff |\
+patch -d $PWD
+
+./configure --prefix=/GTK
+make
+make install
+
+glib
+ ftp://ftp.gtk.org/pub/gtk/v2.12/glib-2.12.1.tar.gz
+
+./configure --prefix=/GTK --disable-gtk-doc
+make
+make install
+
+atk
+ ftp://ftp.gtk.org/pub/gtk/v2.8/atk-1.10.3.tar.gz
+ 
+./configure --prefix=$prefix --disable-gtk-doc
+make
+make install
+
+
+pango
+ ftp://ftp.gtk.org/pub/gtk/v2.12/pango-1.14.0.tar.gz
+
+./configure --prefix=/GTK --disable-gtk-doc --without-x
+make
+make install
+
+
+libtiff
+  ftp://ftp.gtk.org/pub/gtk/v2.10/dependencies/tiff-3.7.4.tar.gz
+
+  ./configure --prefix=$prefix --without-x --with-apple-opengl-framework
+
+gtk+
+  ftp://ftp.gtk.org/pub/gtk/v2.10/gtk+-2.10.1.tar.gz
+
+  /configure --prefix=/GTK --without-x --with-gdktarget=quartz --without-libjpeg
+  make
+  make install
+
+# only needed if using cvs gtk - which we arn't
+#  cd gdk-pixbuf
+#  cp /GTK/etc/gtk-2.0/gdk-pixbuf.loaders .
+#  cd ../gtk
+#  make uninstall
+#  make install
+
+
+/*******************************************
+ * STOP FOR GTK ENV                        *
+ * The following instructions are for      *
+ * compiling the MudMagic Mud Client       *
+ * MAC OS X Software program to connect to *
+ * online text games.                      *
+ *******************************************/
+	MudMagic Specific Requirements:
+	===============================
+libxml2
+ http://ftp.gnome.org/pub/GNOME/sources/libxml2/2.6/?C=M;O=D
+ ./configure --with-debug=no --with-html=no --with-ftp=no --with-http=no --with-legacy=no \
+            --with-python=no --with-regexps=no --prefix=/GTK
+
+libglade
+ cvs -d :pserver:anonymous@anoncvs.gnome.org:/cvs/gnome co libglade
+
+ You'll have to edit autogen.sh since it looks for GNU distributed (untampered) tools.
+ edit autogen.sh
+ remove:
+--------
+  have_libtool=false
+if libtool --version < /dev/null > /dev/null 2>&1 ; then
+        libtool_version=`libtoolize --version | sed 's/^[^0-9]*\([0-9.][0-9.]*\).*/\1/'`
+        case $libtool_version in
+            1.[456789]*)
+                have_libtool=true
+                ;;
+        esac
+fi
+if $have_libtool ; then : ; else
+        echo
+        echo "You must have libtool 1.4 installed to compile $PROJECT."
+        echo "Install the appropriate package for your distribution,"
+        echo "or get the source tarball at http://ftp.gnu.org/gnu/libtool/"
+        DIE=1
+fi
+ --------
+ add:
+   have_libtool=true
+
+ 
+  ./autogen.sh --prefix=/GTK --disable-gtk-doc
+  ./configure --prefix=/GTK
+
+libmxp:
+ http://www.kmuddy.net/libmxp
+ 
+ ./configure --prefix=/GTK
+
+
+pcre:
+ ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/
+ ./configure --prefix=/GTK
+
+curl:
+ http://curl.haxx.se/download/curl-7.15.5.tar.gz
+ ./configure --prefix=/GTK
+

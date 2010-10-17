@@ -1,0 +1,7 @@
+Makefile.in
+.deps
+.libs
+Makefile
+*.la
+*.lo
+mudmagic-bin

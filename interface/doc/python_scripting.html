@@ -1,0 +1,144 @@
+<HTML><!-- (c) jSh:Services -->
+<HEAD><TITLE>Scripting</TITLE>
+<LINK REL=StyleSheet TYPE="text/css" HREF="treeview.css">
+<META NAME="robots" CONTENT="index,follow">
+
+<SCRIPT LANGUAGE="JavaScript"><!--
+function myError(msg, url, line) { redirect(); return true; }
+window.onerror = myError;
+window.defaultStatus = "JavaScript TreeView documentation";
+function redirect() { if (window.stop) window.stop();
+ var newPage = "index.htm#href=index.html"+ location.hash;
+ if (document.images) top.location.replace(newPage);
+ else top.location.href = newPage;
+} if (""+window.innerWidth != "0") // NS4:not printing
+if ((top.name == "JS_TreeView_docu" && top.frames.length == 0)
+ || (top.name != "JS_TreeView_docu")) {
+ text = "\nThis page normally belongs inside a navigation frame.\n\n";
+ if (confirm(text +"Is it OK to reload the page as designed ?"))
+  redirect(); }
+if (top.index && top.index.loaded && top.index.viewKey != '0')
+ top.index.index('+0'); // --></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.2"><!--
+ENUM = new Array(); doneENUM = false;
+isNS = false; if (document.layers) isNS = true;
+if (isNS || (document.all && document.all.item))
+ setInterval("watchPageMarker();", 250);
+function getENUM() { if (doneENUM) return; tmpENUM = new Array();
+ if (isNS) tmpENUM = document.layers;
+ else tmpENUM = document.all.tags("LAYER");
+ if (tmpENUM.length > ENUM.length) ENUM = tmpENUM; else doneENUM = true; }
+function watchPageMarker() { if (top.index && top.index.index) { EY = 0;
+if (document.layers) { PY = window.pageYOffset; IH = window.innerHeight;
+ if (document.layers.EOP) EY = document.layers.EOP.pageY; }
+else { PY = document.body.scrollTop; IH = document.body.clientHeight;
+ if (document.all.item("EOP")) EY = document.all.item("EOP").offsetTop; }
+getENUM(); currY = PY+(IH/3); if (EY-IH-75 < PY) currY = EY; currSec = "";
+for (i = 0; i < ENUM.length; i++) {
+ if ((SN = ""+ (isNS ? ENUM[i].name : ENUM[i].id)).indexOf("section") > -1)
+  if ((SY = (isNS ? ENUM[i].pageY : ENUM[i].offsetTop)) < currY) {
+   currSec = SN; if (SY > PY - 50) break; }} currKey = currSec.substr(8);
+if ((currKey != "") && (top.index.viewKey != currKey))
+ top.index.index("+"+ currKey); }} // --></SCRIPT>
+<script type="text/javascript" src="lightbox.js"></script>
+<link rel="stylesheet" href="lightbox.css" type="text/css" media="screen" />
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#CC0000" VLINK="#990066" ALINK="#CC0000"
+ ONLOAD="window.onerror=myError; if (top.index && top.index.loaded && top.index.viewKey != '0') top.index.index('+0');initLightbox();">
+
+
+<A NAME="fb" CLASS="an"></A>
+<h3><B>Python Scripting</b></h3>
+When you create a Trigger or Alias, you can select some scripting language support. This document describes the usage
+of the Python scripting engine.
+<p>
+The MudMagic Python script engine is nothing more than a gateway to your local Python install. As of version 1.9 of 
+this software, Python support is now built-in with the software. To use Python in your aliases or triggers, simply 
+select PYTHON as the command, and input your python script.
+<p>
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<b><h3>MudMagic python callbacks</h3></b>
+There are certain commands that are looked for by the MudMagic client when dealing with a python script.
+<p>
+
+<ul>Commands to use in your python script to talk to mudmagic client</ul>
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+		send()   sends data back to the client
+		messagebox()  creates a popup message box
+</font></pre></td></tr></table>
+<p>
+
+<ul>External variables</ul>
+
+Variables can be passed directly from MudMagic client to your Python script by using regular expression. For example, 
+to catch the 2 arguments of:  say one two  , you would use a regular expression:  ^say (.*) (.*) . The MudMagic client 
+then sends these variables to your Python script in the form: _1 _2 . Please review the script below for further 
+examples.
+<p>
+
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<b><h3>Python Examples</h3></b>
+
+<b>1.</b>
+Alias: Say Test<br>
+Statement: ^say (.*) (.*)<br>
+Action: Script Python<br>
+
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+one = _1
+two = _2
+
+send("say First was: "+one+" Second was: "+two)
+</font></pre></td></tr></table>
+<p>
+
+<b>2.</b> Example provided by <a href='http://sandstorm.arthmoor.com' target='_new'>Davion</a><br>
+Alias: ^c (.*) (.*)<br>
+
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+#Grab the arguments!
+attempt = _1
+target = _2
+
+#Build us some spells!
+spellList = ("fs", "firestorm"),
+("fb", "fireball"),
+("sc", "sex change")
+
+#A simple function to cycle the spellList
+def getSpell(sn):
+        for x,y in spellList:
+                if sn == x:
+                        return y
+        return None
+
+#Grab the spell to cast
+spell = getSpell(attempt)
+
+#Lets see if it was found!
+if spell:
+        send("cast '"+spell+"' "+target)
+else:
+        messagebox("You don't know the "+attempt+" spell!")
+</pre></font></td></tr></table>
+
+<p>
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<FONT SIZE="1"><BR><I>Copyright &#160;&#169;
+ 2004-02-26 &#160;<A HREF="mudmagic.html">MudMagic.Com</A></I></FONT>
+<LAYER ID="EOP"></LAYER>
+</BODY></HTML>
+

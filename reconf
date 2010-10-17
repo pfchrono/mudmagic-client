@@ -1,0 +1,9 @@
+#!/bin/sh
+rm -f config.cache bundled/Makefile bundled/Makefile.in src/Makefile \
+      src/Makefile.in Makefile.in Makefile configure \
+      config.h.in config.h.in~
+aclocal
+autoconf
+autoheader
+automake -ac
+exit

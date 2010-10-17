@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
+<HTML><!-- (c) jSh:Services -->
+<HEAD><TITLE>MudMagic User's Manual</TITLE>
+<META NAME="robots" CONTENT="noindex,follow">
+<LINK REL=StyleSheet TYPE="text/css" HREF="treeview.css">
+<NULL TAG FOR NETSCAPES LITTLE HICKUP><SCRIPT LANGUAGE="JavaScript"> <!--
+function myError(msg, url, line) { return true; }
+window.onerror = myError; key = "";
+
+UniqueID = top.name = "JS_TreeView_docu";
+window.defaultStatus = "JavaScript TreeView documentation";
+
+if ((top.name != UniqueID) && (navigator.appName == "Netscape")
+ && (navigator.appVersion.charAt(0) == "2")) {
+  opts = "location,menubar,status,resizable,toolbar,scrollbars";
+  remote = window.open("index.html"+ self.location.hash, UniqueID, opts);
+  if (remote != null) setTimeout("self.close();", 10); }
+if (top.frames.length > 0) { // ensure full-screen
+ if (window.stop) window.stop();
+ if (document.images) top.location.replace(self.location.href);
+ else top.location.href = self.location.href;
+}
+function setFrameContent() { prm = " "+ self.location.href;
+ pos = prm.indexOf("href="); if (pos > -1 && top.main) {
+  var newPage = prm.substring(pos + 5, prm.length);
+  if (document.images) top.main.location.replace(newPage);
+  else top.main.location.href = newPage;
+}}
+function resizeReload() {
+ if (document.layers && self.frames.index)
+  setTimeout("self.frames.index.location.reload();", 500);
+} // --></SCRIPT>
+</HEAD>
+     
+<FRAMESET COLS="180,*" FRAMEBORDER="1" FRAMESPACING="3"
+ BORDER="3" ONLOAD="setFrameContent();" ONRESIZE="resizeReload();">
+ <FRAMESET ROWS="*,30" BORDER="1" FRAMEBORDER="1" FRAMESPACING="1">
+  <FRAME SRC="nav.html" NAME="index" MARGINHEIGHT="5" MARGINWIDTH="0">
+  <FRAME SRC="explain.html" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="NO">
+ </FRAMESET>
+ <FRAME SRC="introduction.html" NAME="main" MARGINHEIGHT="5" MARGINWIDTH="10">
+</FRAMESET>
+
+<NOFRAMES><BODY>
+This is the documentation for the MudMagic Mud Client.
+<P>
+It seems your browser can't interpret the &lt;FRAME&gt;-Tag. Please
+follow this <A HREF="introduction.html">link</A> to the documentation.
+<P><HR>
+</BODY></NOFRAMES></HTML>
+</html>

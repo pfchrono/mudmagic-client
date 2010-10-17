@@ -1,0 +1,8 @@
+Contents:
+
+  bundled/libglade : *nix develop env for autoconf bundled libglade
+  bundled/libglade/glade : header file for *nix develop env
+
+  bundled/libglade/win32/include : header files for win32 development
+  bundled/libglade/win32/lib : lib for linking for win32 development
+

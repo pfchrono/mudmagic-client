@@ -1,0 +1,17 @@
+#!/bin/sh
+prefix="@prefix@"
+exec_prefix="@exec_prefix@"
+libs="@bundle_libdir@:@libdir@"
+
+binary="@bindir@/mudmagic-bin"
+
+run() {
+
+   # Append our mudmagic libs.
+   export LD_LIBRARY_PATH="$libs"
+   "$binary" "$@"
+}
+
+run "$@"
+exit 0
+

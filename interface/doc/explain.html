@@ -1,0 +1,29 @@
+<HTML> <!-- (c) jSh:Services -->
+<HEAD> <TITLE>JavaScript TreeView - What's this symbol ?</TITLE>
+<LINK REL=StyleSheet TYPE="text/css" HREF="treeview.css">
+<META NAME="robots" CONTENT="noindex,follow"></HEAD>
+<BODY BGCOLOR="#FFFFFF"><CENTER><NOBR><SCRIPT LANGUAGE="JavaScript"> <!--
+function myError(msg, url, line) { return true; }
+window.onerror = myError; window.defaultStatus = "";
+function OpenBook() { alert("\nSymbol: Show sub-list.\nClick on this symbol"
+ +" to view the sub-list currently hidden."); return false; }
+function CloseBook() { alert("\nSymbol: Hide sub-list.\nClick on this symbol"
+ +" to hide the sub-list below a given entry."); return false; }
+function Leaf() { alert("\nSymbol: Document. \nThis symbol represents a page"
+ +" you can view by clicking on the link."); return false; }
+document.writeln('<A HREF="#" STYLE="cursor:help;" ONCLICK="return OpenBook()" '
+ +'ONMOUSEOVER="window.status=\'explain symbol\';return true" '
+ +'ONMOUSEOUT="window.status=\'\';return true"><IMG SRC="grafix/hlp/ix_endp.gif" '
+ +'BORDER=0><IMG SRC="grafix/hlp/ix_book.gif" BORDER=0><\/A> &#160;&#160;\n'
+ +'<A HREF="#" STYLE="cursor:help;" ONCLICK="return CloseBook()" '
+ +'ONMOUSEOVER="window.status=\'explain symbol\';return true" '
+ +'ONMOUSEOUT="window.status=\'\';return true"><IMG SRC="grafix/hlp/ix_endm.gif" '
+ +'BORDER=0><IMG SRC="grafix/hlp/ix_open.gif" BORDER=0><\/A> &#160;&#160;\n'
+ +'<A HREF="#" STYLE="cursor:help;" ONCLICK="return Leaf()" '
+ +'ONMOUSEOVER="window.status=\'explain symbol\';return true" '
+ +'ONMOUSEOUT="window.status=\'\';return true"><IMG SRC="grafix/hlp/ix_leaf.gif" '
+ +'BORDER=0><\/A> &#160;&#160;\n'); // --> </SCRIPT>
+<A HREF="introduction.html" TARGET="main" ONMOUSEOUT="window.status='';return true"
+ ONMOUSEOVER="window.status='Copyright (c) by jSh:Services';return true"
+ ><IMG SRC="grafix/ix_copy.gif" BORDER=0></A>
+</NOBR></CENTER></BODY></HTML>

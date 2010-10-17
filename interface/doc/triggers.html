@@ -1,0 +1,184 @@
+<HTML><!-- (c) jSh:Services -->
+<HEAD><TITLE>Triggers</TITLE>
+<LINK REL=StyleSheet TYPE="text/css" HREF="treeview.css">
+<META NAME="robots" CONTENT="index,follow">
+
+<SCRIPT LANGUAGE="JavaScript"><!--
+function myError(msg, url, line) { redirect(); return true; }
+window.onerror = myError;
+window.defaultStatus = "JavaScript TreeView documentation";
+function redirect() { if (window.stop) window.stop();
+ var newPage = "index.htm#href=index.html"+ location.hash;
+ if (document.images) top.location.replace(newPage);
+ else top.location.href = newPage;
+} if (""+window.innerWidth != "0") // NS4:not printing
+if ((top.name == "JS_TreeView_docu" && top.frames.length == 0)
+ || (top.name != "JS_TreeView_docu")) {
+ text = "\nThis page normally belongs inside a navigation frame.\n\n";
+ if (confirm(text +"Is it OK to reload the page as designed ?"))
+  redirect(); }
+if (top.index && top.index.loaded && top.index.viewKey != '0')
+ top.index.index('+0'); // --></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript1.2"><!--
+ENUM = new Array(); doneENUM = false;
+isNS = false; if (document.layers) isNS = true;
+if (isNS || (document.all && document.all.item))
+ setInterval("watchPageMarker();", 250);
+function getENUM() { if (doneENUM) return; tmpENUM = new Array();
+ if (isNS) tmpENUM = document.layers;
+ else tmpENUM = document.all.tags("LAYER");
+ if (tmpENUM.length > ENUM.length) ENUM = tmpENUM; else doneENUM = true; }
+function watchPageMarker() { if (top.index && top.index.index) { EY = 0;
+if (document.layers) { PY = window.pageYOffset; IH = window.innerHeight;
+ if (document.layers.EOP) EY = document.layers.EOP.pageY; }
+else { PY = document.body.scrollTop; IH = document.body.clientHeight;
+ if (document.all.item("EOP")) EY = document.all.item("EOP").offsetTop; }
+getENUM(); currY = PY+(IH/3); if (EY-IH-75 < PY) currY = EY; currSec = "";
+for (i = 0; i < ENUM.length; i++) {
+ if ((SN = ""+ (isNS ? ENUM[i].name : ENUM[i].id)).indexOf("section") > -1)
+  if ((SY = (isNS ? ENUM[i].pageY : ENUM[i].offsetTop)) < currY) {
+   currSec = SN; if (SY > PY - 50) break; }} currKey = currSec.substr(8);
+if ((currKey != "") && (top.index.viewKey != currKey))
+ top.index.index("+"+ currKey); }} // --></SCRIPT>
+<script type="text/javascript" src="lightbox.js"></script>
+<link rel="stylesheet" href="lightbox.css" type="text/css" media="screen" />
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#CC0000" VLINK="#990066" ALINK="#CC0000"
+ ONLOAD="window.onerror=myError; if (top.index && top.index.loaded && top.index.viewKey != '0') top.index.index('+0');initLightbox();">
+
+<LAYER ID="section_0"></LAYER>
+<A NAME="*" CLASS="an"><font size="1">&#160;</font></A>
+
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<P>
+<B><h3><a name="a">Trigger Definition</a></h3></B>
+A Trigger allows the MudMagic client to automatically execute a command or series of command based on the output of 
+your screen. So if you want to congratulate someone everytime they level, you can create a trigger to automatically 
+chat a congratulations when the string 'Kelmar has reached level 20' is viewed. To create this type of trigger, a 
+little regular expression is required.
+<p>
+<ul>Trigger actions can be any of the following:
+	<li>Text output</li>
+	<li>MudMagic BASIC scripting output</li>
+	<li>Python scripting output</li>
+	<li>Play a sound file</li>
+	<li>Popup a message box</li>
+</ul>
+
+<p>
+All alias events use PCRE (perl compatible regular expression). What this means, is if you create an alias called just:
+<b>test</b>, then if you input anything on the command line that contains the word "test" in it, the alias will
+trigger. For example, the following <u>This isatest</u> would trigger an alias with a Statement setting of "test".
+Thus, make sure to check your PCRE settings. What you want to use for just a 'test' input statement would actually be:
+<b>^test</b>. Since the Statement trigger is PCRE based, you can pass arguments through to a back end script - or just
+output plain text for the simpler aliases.
+<p>
+A full pattern match with Regex for an event such as: Flicker tells you 'Hi there'.   would appear as:
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+  Name:   Automatic Reply
+  Statement: (.*) tells you '(.*)'.
+  Action: (Script) BASIC:
+
+      print "tell $1 Sorry I missed your message, I've written it down though"
+      print "note to Kyndig;note subject Missed Message from $1"
+      print "note + $2"
+      print "note post"
+</font></pre></td></tr></table><br>
+
+The above example trigger will execute when the pattern is matched. If you read it carefully, you will see that a 
+reply message is sent back to Flicker and a note is posted to Kyndig that a message was missed. The content of the note 
+is the message that Flicker sent (or $2 - which is the second argument of the caught pattern )
+<br>
+For help in Regular Expression usage for catching a trigger, visit: 
+<a href='http://perldoc.perl.org/perlre.html' target='_new'>http://perldoc.perl.org/perlre.html</a>
+
+<p>
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+<P>
+
+<B><h3><a name="b">Trigger Editing</a></h3></B>
+To edit a Trigger, you fill out the Name, Statement, and select the action.
+<p>
+The Trigger: is either a basic line pattern match:  has entered the game  
+             or a regular expression: (.*) has entered the game.
+
+<P>
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+<p>
+
+<B><h3><a name="c">Scope of Triggers</a></h3></B>
+ Triggers can be stored as Local game triggers, or Global world triggers. Local game triggers are only available for 
+that specific game you are connected to - whereas Global world triggers are available to any game you are connected to. 
+For Global Trigger editing - visit: <strong>Setting -> Global Settings -> Actions -> Triggers</strong>. 
+To edit your local game alias, visit: <strong>Profile -> Actions -> Triggers</strong> when connected to a game.
+<p>
+All triggers are stored and saved on a per-game basis. So each game has its own unique triggers system. Global 
+triggers are the only exception to this rule - where they are available to any game. Triggers can also be
+imported/exported on a game-by-game basis through the Import/Export feature.
+
+<P>
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+<p>
+
+<B><h3><a name="d">Scripting Support</a></h3></B>
+Triggers can use either Python or the MudMagic BASIC scripting language. For more assistance in BASIC and Python 
+scripting, see: Scripting to the left.
+
+<P>
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+<p>
+
+<B><h3><a name="e">Trigger Examples</a></h3></B>
+Triggers allow you to react automatically to text that comes from the MUD. This reaction can be of two forms: sending 
+something to the MUD in reply, or there may be no direct interaction with the MUD, but something might be printed in 
+the screen, or something else done to call your attention. With the use of Perl PCRE, you can pass arguments to the 
+MudMagic command interpreter to perform some BASIC script support if desired. 
+
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+    Example 1:
+	Name: Someone Died
+	Statement:  has been killed in battle
+	Action: Text
+	--------------------
+	chat comforts
+</font></pre></td></tr></table>
+	The above example will output to your client: chat comforts  If the line: 'has been killed in battle' appears
+	on your client screen.
+<p>
+<TABLE WIDTH="100%" BORDER="1" BORDERCOLOR="#0000CC" CELLSPACING="0">
+<TR><TD BGCOLOR="#FFFFE0">
+        <PRE><FONT SIZE="-1">
+   Example 2:
+        Name: <target> has died
+        Statement: (.*) has been killed in battle
+	Action: (Script) BASIC
+	---------------------
+	print "restore $1"
+	print "chat comforts $1"
+</font></pre></td></tr></table>
+	The above trigger is like the first example, except it uses regular express to store arguments which can be 
+        used in the Mudmagic BASIC command interpreter. If the message:  Kyndig has been killed in battle  appears on 
+        your screen the following will be sent:
+<p>
+	restore Kyndig
+	chat comforts Kyndig
+
+<p>
+<TABLE WIDTH="100%" BGCOLOR="#CCFFCC" CELLSPACING=0 CELLPADDING=0><TR><TD
+ ALIGN="CENTER"><HR NOSHADE COLOR="#0000CC" WIDTH="98%"></TD></TR></TABLE>
+
+<FONT SIZE="1"><BR><I>Copyright &#160;&#169;
+ 2004-02-26 &#160;<A HREF="mudmagic.html">MudMagic.Com</A></I></FONT>
+<LAYER ID="EOP"></LAYER>
+</BODY></HTML>

@@ -1,0 +1,11 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+datadir=${prefix}/share
+Cflags: -I${includedir}/mudmagic
+ 
+Name: MudMagic
+Description: MudMagic is a GTK2-based online text game client.
+Version: 1.9
+Requires: glib-2.0
